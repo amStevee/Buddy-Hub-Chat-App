@@ -1,0 +1,17 @@
+{
+  "name": "Buddy-Hub-Chat-App",
+  "version": "1.0.0",
+  "description": "simple chat app",
+  "workspaces": ["client", "server"],
+  "main": "index.js",
+  "scripts": {
+    "start": "",
+    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "build": "npm run build --workspaces",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["node", "chat app", "react", "express", "Postgres"],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.2"
+}

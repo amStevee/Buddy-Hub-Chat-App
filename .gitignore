@@ -1,0 +1,5 @@
+# any folder/file path added here will not be pushed to git hub e.g. ./app.js
+
+.env
+
+/node_modules
