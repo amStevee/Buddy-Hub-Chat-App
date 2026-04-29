@@ -4,15 +4,24 @@ on:
   push:
     branches: [main]
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-      steps:
-        - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: Install depenencies
-          run: pnpm Install
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
-        - name: Run build
-          run: pnpm run build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run build
+        run: pnpm run build
