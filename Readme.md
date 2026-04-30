@@ -1,6 +1,6 @@
 # Buddy-Hub
 
-Buddy-Hub-Chat-App is an application that lets family, friend, and team members send text messages in a **fast** and **reliable** manner. It uses simple text, emojies, and symbols.
+Buddy-Hub is an application that lets family, friend, and team members send text messages in a **fast** and **reliable** manner. It uses simple text, emojies, and symbols.
 
 ## Teach Stack
 
