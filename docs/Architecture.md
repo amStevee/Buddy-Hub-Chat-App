@@ -20,6 +20,7 @@ chat-app/
 │   │   ├── config/          # DB config, environment setup
 │   │   ├── controllers/     # Request handlers / logic
 │   │   ├── routes/          # API routes
+│   │   ├── repositories/
 │   │   ├── middlewares/     # Auth, validation, etc.
 │   │   ├── services/        # Business logic layer
 │   │   ├── sockets/         # WebSocket / Socket.io logic
