@@ -1,7 +1,9 @@
-import React from 'react'
 
-export const Button = () => {
+
+export const Button = ({type, text, bg, action}) => {
   return (
-    <div>Button</div>
+    <>
+      <button type={type} className=''>{text}</button>
+    </>
   )
 }

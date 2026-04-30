@@ -1,15 +1,24 @@
-Server Dependencies
-. express
-. jest
-. becrypt
+# Buddy-Hub
 
-Client Dependencies
-. react-router-dom
-. tailwind
+## Project Overview
 
-Capital letters should be used to represent constants e.g const EVENTS = "send_message" (the value "send_message" will not be changed by any means and a such is considered a constant value)
+Buddy-Hub-Chat-App is an application that lets family, friend, and team members send text messages in a **fast** and **reliable** manner. It uses simple text, emojies, and symbols.
 
-Core services include:
-. creating user
-. send_message
-. receive_message
+## Teach Stack
+
+1. Frontend:
+    * React
+    * Tailwindcss
+    * Redux tool kit
+2. Backend:
+    * Node.js
+    * Express
+3. Database: 
+    * PostgreSQL
+4. Realtime:
+    * Socket.io
+
+## API Documentation
+
+[API Documentation](./API.md)
+
