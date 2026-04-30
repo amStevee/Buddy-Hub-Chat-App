@@ -31,7 +31,7 @@ Buddy-Hub is an application that lets family, friend, and team members send text
 Make sure you have the following installed:
 
 - Node.js (V22.14.0+)
-- pnpm
+- pnpm ``` npm install -g pnpm@latest-10 ```
 - Git
 
 1. Clone the repository by running `git clone https://github.com/amStevee/Buddy-Hub-Chat-App.git`
