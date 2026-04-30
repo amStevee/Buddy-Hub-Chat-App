@@ -1,24 +1,49 @@
-# Buddy-Hub
+# Buddy Hub Chat App Project Structure
 
-## Project Overview
+chat-app/
 
-Buddy-Hub-Chat-App is an application that lets family, friend, and team members send text messages in a **fast** and **reliable** manner. It uses simple text, emojies, and symbols.
+├── client/                    # Frontend (React create with vite)
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/            # Images, icons
+│   │   ├── components/        # Reusable UI components
+│   │   ├── features/          # Chat, Auth, etc.
+│   │   ├── pages/             # Routes/screens
+│   │   ├── hooks/             # Custom hooks
+│   │   ├── services/          # API calls
+│   │   ├── store/             # State management
+│   │   ├── utils/             # Helpers
+│   │   └── App.jsx
+│   ├── package.json
+│   └── README.md
+│
+├── server/                     # Backend (Node.js / Express)
+│   ├── src/
+│   │   ├── config/            # DB, env setup
+│   │   ├── controllers/       # Logic
+│   │   ├── routes/            # API routes
+│   │   ├── repositories/        
+│   │   ├── middlewares/       # Auth, validation
+│   │   ├── services/          # Business logic
+│   │   ├── sockets/           # WebSocket / Socket.io logic
+│   │   └── index.js
+│   ├── package.json
+│   └── README.md
+│
+├── docs/                       # Documentation
+│   ├── API.md
+│   ├── ARCHITECTURE.md
+│   └── CONTRIBUTING.md		  
+│
+├── .github/
+│   ├── workflows/              # CI/CD
+│   │   └── ci.yml
+│   └── ISSUE_TEMPLATE/ (I may not add this)
+│
+├── .env.example
+├── .gitignore
+├── docker-compose.yml
+├── package.json                # Root (monorepo scripts)
+└── README.md
 
-## Teach Stack
-
-1. Frontend:
-    * React
-    * Tailwindcss
-    * Redux tool kit
-2. Backend:
-    * Node.js
-    * Express
-3. Database: 
-    * PostgreSQL
-4. Realtime:
-    * Socket.io
-
-## API Documentation
-
-[API Documentation](./API.md)
 
