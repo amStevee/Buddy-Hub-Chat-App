@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js",
+    "build": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
     "test": "jest"
   },
   "engines": {
