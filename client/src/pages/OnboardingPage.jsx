@@ -90,7 +90,7 @@ export default function Onboarding() {
                     asChild
                     className="w-full h-16 text-xl font-semibold rounded-2xl"
                   >
-                    <Link href="/signup">Get Started</Link>
+                    <Link to="/signup">Get Started</Link>
                   </Button>
                 ) : (
                   <Button
