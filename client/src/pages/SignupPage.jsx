@@ -95,6 +95,23 @@ export default function SignupPage() {
 
       <h4>or sign up with</h4>
 
+      {/* 
+        To-do
+        replace sign-up options with their respective links
+      */}
+
+      <div className="flex justify-between gap-5">
+        <div className="flex items-center rounded-4xl bg-muted-foreground p-5">
+          G
+        </div>
+        <div className="flex items-center rounded-4xl bg-muted-foreground p-5">
+          F
+        </div>
+        <div className="flex items-center rounded-4xl bg-muted-foreground p-5">
+          L
+        </div>
+      </div>
+
       <h5 className="font-bold">
         Already have an account?{" "}
         <Link to={"/signin"} className="text-primary ">
