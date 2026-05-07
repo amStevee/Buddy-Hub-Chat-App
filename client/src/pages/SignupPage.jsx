@@ -66,7 +66,10 @@ export default function SignupPage() {
               )}
             </InputGroupAddon>
           </InputGroup>
-          <FieldDescription>Icon positioned at the end.</FieldDescription>
+          <FieldDescription>
+            Password should be 8-20 characters and include at least 1 letter, 1
+            number and 1 special character
+          </FieldDescription>
         </Field>
 
         {/* Confirm password */}
