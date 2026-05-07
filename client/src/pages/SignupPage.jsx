@@ -55,7 +55,7 @@ export default function SignupPage() {
           <InputGroup>
             <InputGroupInput
               id="inline-end-input"
-              type="password"
+              type={visible ? "text" : "password"}
               placeholder="Enter password"
             />
             <InputGroupAddon align="inline-end">
@@ -75,8 +75,8 @@ export default function SignupPage() {
           <InputGroup>
             <InputGroupInput
               id="inline-end-input"
-              type="password"
-              placeholder="Enter password"
+              type={visible ? "text" : "password"}
+              placeholder="Comfirm password"
             />
             <InputGroupAddon align="inline-end">
               {visible ? (
@@ -86,7 +86,6 @@ export default function SignupPage() {
               )}
             </InputGroupAddon>
           </InputGroup>
-          <FieldDescription>Icon positioned at the end.</FieldDescription>
         </Field>
 
         <Field orientation="vertical">
@@ -95,6 +94,23 @@ export default function SignupPage() {
       </FieldGroup>
 
       <h4>or sign up with</h4>
+
+      {/* 
+        To-do
+        replace sign-up options with their respective links
+      */}
+
+      <div className="flex justify-between gap-5">
+        <div className="flex items-center rounded-4xl bg-muted-foreground p-5">
+          G
+        </div>
+        <div className="flex items-center rounded-4xl bg-muted-foreground p-5">
+          F
+        </div>
+        <div className="flex items-center rounded-4xl bg-muted-foreground p-5">
+          L
+        </div>
+      </div>
 
       <h5 className="font-bold">
         Already have an account?{" "}
