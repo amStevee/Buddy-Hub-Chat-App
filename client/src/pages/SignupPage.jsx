@@ -55,7 +55,7 @@ export default function SignupPage() {
           <InputGroup>
             <InputGroupInput
               id="inline-end-input"
-              type="password"
+              type={visible ? "text" : "password"}
               placeholder="Enter password"
             />
             <InputGroupAddon align="inline-end">
@@ -75,8 +75,8 @@ export default function SignupPage() {
           <InputGroup>
             <InputGroupInput
               id="inline-end-input"
-              type="password"
-              placeholder="Enter password"
+              type={visible ? "text" : "password"}
+              placeholder="Comfirm password"
             />
             <InputGroupAddon align="inline-end">
               {visible ? (
@@ -86,7 +86,6 @@ export default function SignupPage() {
               )}
             </InputGroupAddon>
           </InputGroup>
-          <FieldDescription>Icon positioned at the end.</FieldDescription>
         </Field>
 
         <Field orientation="vertical">
