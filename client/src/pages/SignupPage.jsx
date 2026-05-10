@@ -13,12 +13,49 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 export default function SignupPage() {
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  function handleFormData(e) {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    setFormData((prevState) => {
+      return { ...prevState, [name]: value };
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log("function ran");
+
+    const values = formData;
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error(`password does not match`);
+      return;
+    }
+
+    console.log({ ...values, password: null, confirmPassword: null });
+
+    navigate("/chat-list");
+  }
+
   return (
-    <div className="flex flex-col items-center pt-5 gap-5 mt-20">
+    <div className="flex flex-col items-center gap-5 mt-20">
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="flex flex-col items-center">
         <h1 className="text-primary font-bold text-[clamp(1.5rem,5vw,3rem)]">
           Create Account
@@ -26,24 +63,51 @@ export default function SignupPage() {
         <small>Be a part of the Buddy hub community</small>
       </div>
 
-      <FieldGroup>
+      <FieldGroup onSubmit={handleSubmit}>
         {/* Firstname */}
         <Field>
-          <FieldLabel htmlFor="fieldgroup-name">Firstname</FieldLabel>
-          <Input id="fieldgroup-name" placeholder="Jordan Lee" />
+          <FieldLabel htmlFor="firstname">
+            Firstname <span className="text-destructive">*</span>
+          </FieldLabel>
+          <Input
+            id="firstname"
+            name="firstname"
+            placeholder="Jordan"
+            onChange={handleFormData}
+            value={formData.firstname}
+            autoComplete={"true"}
+            required
+          />
         </Field>
         {/* Lastname */}
         <Field>
-          <FieldLabel htmlFor="fieldgroup-name">Lastname</FieldLabel>
-          <Input id="fieldgroup-name" placeholder="Jordan Lee" />
+          <FieldLabel htmlFor="lastname">
+            Lastname <span className="text-destructive">*</span>
+          </FieldLabel>
+          <Input
+            id="lastname"
+            name="lastname"
+            placeholder="Lee"
+            onChange={handleFormData}
+            value={formData.lastname}
+            autoComplete={"true"}
+            required
+          />
         </Field>
         {/* Email */}
         <Field>
-          <FieldLabel htmlFor="fieldgroup-email">Email</FieldLabel>
+          <FieldLabel htmlFor="email">
+            Email <span className="text-destructive">*</span>
+          </FieldLabel>
           <Input
-            id="fieldgroup-email"
+            id="email"
+            name="email"
             type="email"
             placeholder="name@example.com"
+            onChange={handleFormData}
+            value={formData.email}
+            autoComplete={"true"}
+            required
           />
           <FieldDescription>
             We&apos;ll send updates to this address.
@@ -51,12 +115,19 @@ export default function SignupPage() {
         </Field>
         {/* Password */}
         <Field className="max-w-sm">
-          <FieldLabel htmlFor="inline-end-input">Password</FieldLabel>
+          <FieldLabel htmlFor="password">
+            Password <span className="text-destructive">*</span>
+          </FieldLabel>
           <InputGroup>
             <InputGroupInput
-              id="inline-end-input"
+              id="password"
+              name="password"
               type={visible ? "text" : "password"}
               placeholder="Enter password"
+              onChange={handleFormData}
+              value={formData.password}
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$"
+              required
             />
             <InputGroupAddon align="inline-end">
               {visible ? (
@@ -66,17 +137,24 @@ export default function SignupPage() {
               )}
             </InputGroupAddon>
           </InputGroup>
-          <FieldDescription>Icon positioned at the end.</FieldDescription>
+          <FieldDescription>
+            Password should be 8-20 characters and include at least 1 letter, 1
+            number and 1 special character
+          </FieldDescription>
         </Field>
 
         {/* Confirm password */}
         <Field className="max-w-sm">
-          <FieldLabel htmlFor="inline-end-input">Confirm Password</FieldLabel>
+          <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
           <InputGroup>
             <InputGroupInput
-              id="inline-end-input"
+              id="confirmPassword"
+              name="confirmPassword"
               type={visible ? "text" : "password"}
-              placeholder="Comfirm password"
+              placeholder="Confirm password"
+              onChange={handleFormData}
+              value={formData.confirmPassword}
+              required
             />
             <InputGroupAddon align="inline-end">
               {visible ? (
@@ -88,7 +166,7 @@ export default function SignupPage() {
           </InputGroup>
         </Field>
 
-        <Field orientation="vertical">
+        <Field orientation="horizontal" className="justify-center">
           <Button type="submit">Sign up</Button>
         </Field>
       </FieldGroup>

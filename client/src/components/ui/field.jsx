@@ -1,8 +1,16 @@
 import { cn } from "@/lib/utils"; // shadcn helper (optional but recommended)
 
 // Wrapper for a group of fields
-export function FieldGroup({ children, className }) {
-  return <div className={cn("space-y-6", className)}>{children}</div>;
+export function FieldGroup({ onSubmit, method, children, className }) {
+  return (
+    <form
+      method="POST"
+      onSubmit={onSubmit}
+      className={cn("space-y-6", className)}
+    >
+      {children}
+    </form>
+  );
 }
 
 // Single field container
