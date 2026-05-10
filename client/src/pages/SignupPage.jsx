@@ -63,7 +63,7 @@ export default function SignupPage() {
         <small>Be a part of the Buddy hub community</small>
       </div>
 
-      <FieldGroup onSubmit={handleSubmit}>
+      <FieldGroup onSubmit={handleSubmit} className="px-10">
         {/* Firstname */}
         <Field>
           <FieldLabel htmlFor="firstname">
