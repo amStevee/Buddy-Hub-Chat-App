@@ -63,7 +63,7 @@ export default function SignupPage() {
         <small>Be a part of the Buddy hub community</small>
       </div>
 
-      <FieldGroup onSubmit={handleSubmit} className="mx-5">
+      <FieldGroup onSubmit={handleSubmit} className="mx-10">
         {/* Firstname */}
         <Field>
           <FieldLabel htmlFor="firstname">
@@ -145,7 +145,9 @@ export default function SignupPage() {
 
         {/* Confirm password */}
         <Field className="max-w-sm">
-          <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+          <FieldLabel htmlFor="confirmPassword">
+            Confirm Password <span className="text-destructive">*</span>
+          </FieldLabel>
           <InputGroup>
             <InputGroupInput
               id="confirmPassword"
@@ -167,7 +169,9 @@ export default function SignupPage() {
         </Field>
 
         <Field orientation="horizontal" className="justify-center">
-          <Button type="submit">Sign up</Button>
+          <Button size="lg" type="submit" className="px-20 py-5 rounded-4xl">
+            Sign up
+          </Button>
         </Field>
       </FieldGroup>
 
@@ -178,16 +182,10 @@ export default function SignupPage() {
         replace sign-up options with their respective links
       */}
 
-      <div className="flex justify-between gap-5">
-        <div className="flex items-center rounded-4xl bg-muted-foreground p-5">
-          G
-        </div>
-        <div className="flex items-center rounded-4xl bg-muted-foreground p-5">
-          F
-        </div>
-        <div className="flex items-center rounded-4xl bg-muted-foreground p-5">
-          L
-        </div>
+      <div className="flex justify-between gap-5 ">
+        <div className="flex items-center rounded-4xl bg-muted-foreground p-5 disabled:opacity-50 disabled:pointer-events-none disabled:hover:bg-primary"></div>
+        <div className="flex items-center rounded-4xl bg-muted-foreground p-5 disabled:opacity-50 disabled:pointer-events-none disabled:hover:bg-primary"></div>
+        <div className="flex items-center rounded-4xl bg-muted-foreground p-5 disabled:opacity-50 disabled:pointer-events-none disabled:hover:bg-primary"></div>
       </div>
 
       <h5 className="font-bold">
