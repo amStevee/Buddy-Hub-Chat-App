@@ -1,12 +1,7 @@
 import React from "react";
 import { EyeOffIcon, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldDescription,
-  FieldLabel,
-  FieldGroup,
-} from "@/components/ui/field";
+import { Field, FieldLabel, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
   InputGroup,
@@ -92,7 +87,7 @@ export default function SigninPage() {
             </InputGroupAddon>
           </InputGroup>
           <Button asChild variant="link" className="self-end text-primary">
-            <Link to='/forget-password'>forget password?</Link>
+            <Link to="/forgot-details">forget password?</Link>
           </Button>
         </Field>
 

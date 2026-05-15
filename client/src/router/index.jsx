@@ -2,6 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
 import OnboardingPage from "@/pages/OnboardingPage";
 import SignupPage from "@/pages/SignupPage";
+import SigninPage from "@/pages/SigninPage";
+import VerificationPage from "@/pages/VerificationPage";
+import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import SigninPage from "@/pages/SigninPage";
 import { VerificationPage } from "@/pages/VerificationPage";
@@ -27,7 +30,7 @@ const router = createBrowserRouter([
         element: <VerificationPage />,
       },
       {
-        path: "/forget-password",
+        path: "/forgot-details",
         element: <ForgotPasswordPage />,
       },
     ],
