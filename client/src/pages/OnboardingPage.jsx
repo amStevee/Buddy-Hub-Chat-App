@@ -45,7 +45,7 @@ export default function Onboarding() {
   const isLastSlide = current === ONBOARDING_DATA.length - 1;
 
   return (
-    <div className="bg-primary h-screen flex flex-col overflow-hidden">
+    <div className="bg-primary h-screen flex flex-col items-center justify-center">
       <div className="relative flex-1 flex flex-col items-center justify-between pt-16 ">
         <h1 className="text-3xl font-bold text-white">Buddy Hub</h1>
 
@@ -58,8 +58,10 @@ export default function Onboarding() {
         </div>
       </div>
 
-      <div className="bg-white rounded-tl-[100px] px-8 pt-12 pb-16 z-10">
-        <Carousel setApi={setApi} className="w-full">
+        <Carousel
+          setApi={setApi}
+          className="w-full bg-white rounded-tl-[100px] px-8 pt-12 pb-24 z-10"
+        >
           <CarouselContent>
             {ONBOARDING_DATA.map((slide, index) => (
               <CarouselItem
@@ -89,14 +91,14 @@ export default function Onboarding() {
                 {isLastSlide ? (
                   <Button
                     asChild
-                    className="w-full h-16 text-xl font-semibold rounded-2xl"
+                    className="h-16 px-12 text-xl font-semibold rounded-2xl"
                   >
                     <Link to="/signup">Get Started</Link>
                   </Button>
                 ) : (
                   <Button
                     onClick={() => api?.scrollNext()}
-                    className="w-full h-16 text-xl font-semibold rounded-2xl"
+                    className="h-16 px-12 text-xl font-semibold rounded-2xl"
                   >
                     Continue
                   </Button>
@@ -105,7 +107,6 @@ export default function Onboarding() {
             ))}
           </CarouselContent>
         </Carousel>
-      </div>
     </div>
   );
 }
