@@ -7,7 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 
-export const VerificationPage = () => {
+export default function VerificationPage()  {
   const navigate = useNavigate();
   function verifyCode() {
     navigate("/chat-list");
