@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import mrBuddy from "../assets/mr-buddy.png";
 
 const ONBOARDING_DATA = [
   {
@@ -50,14 +51,14 @@ export default function Onboarding() {
 
         <div className="relative w-full flex justify-center">
           <img
-            src="../assets/mr-buddy.png"
-            alt=""
+            src={mrBuddy}
+            alt="mr buddy png"
             className="w-4/5 object-contain translate-y-4"
           />
         </div>
       </div>
 
-      <div className="bg-white rounded-tl-[100px] px-8 pt-12 pb-16">
+      <div className="bg-white rounded-tl-[100px] px-8 pt-12 pb-16 z-10">
         <Carousel setApi={setApi} className="w-full">
           <CarouselContent>
             {ONBOARDING_DATA.map((slide, index) => (
