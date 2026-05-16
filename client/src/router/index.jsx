@@ -6,9 +6,6 @@ import SigninPage from "@/pages/SigninPage";
 import VerificationPage from "@/pages/VerificationPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import NotFoundPage from "@/pages/NotFoundPage";
-import SigninPage from "@/pages/SigninPage";
-import { VerificationPage } from "@/pages/VerificationPage";
-import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 
 const router = createBrowserRouter([
   {
