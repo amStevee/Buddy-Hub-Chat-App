@@ -6,6 +6,7 @@ import SigninPage from "@/pages/SigninPage";
 import VerificationPage from "@/pages/VerificationPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import NotFoundPage from "@/pages/NotFoundPage";
+import ChatList from "@/pages/ChatList";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/forgot-details",
         element: <ForgotPasswordPage />,
+      },
+      {
+        path: "/chat-list",
+        element: <ChatList />,
       },
     ],
   },
