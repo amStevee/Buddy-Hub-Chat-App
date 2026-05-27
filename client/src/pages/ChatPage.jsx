@@ -2,6 +2,10 @@
 
 export default function ChatPage () {
   return (
-    <div>ChatPage</div>
+    <div class="flex flex-col">
+      <div>
+        <h1>Hello</h1>
+      </div>
+    </div>
   )
 }

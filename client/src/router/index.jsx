@@ -7,6 +7,7 @@ import VerificationPage from "@/pages/VerificationPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import ChatList from "@/pages/ChatList";
+import ChatPage from "@/pages/ChatPage";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/chat-list",
         element: <ChatList />,
+      },
+      {
+        path: "/chat",
+        element: <ChatPage />,
       },
     ],
   },

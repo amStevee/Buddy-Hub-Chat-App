@@ -1,8 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function ChatCard({ name, message, time, unread, avatar }) {
+export default function ChatCard({ name, message, time, unread, avatar, event }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl bg-white p-3 hover:bg-gray-100 transition-colors cursor-pointer">
+    <div className="flex items-center justify-between gap-3 rounded-xl bg-white p-3 hover:bg-gray-100 transition-colors cursor-pointer" onClick={event}>
       <div className="flex items-center gap-3 min-w-0">
         <Avatar className="h-14 w-14">
           <AvatarImage src={avatar} />

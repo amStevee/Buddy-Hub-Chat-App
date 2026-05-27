@@ -6,10 +6,18 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { SearchIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function ChatList() {
   const name = "Name";
   const avatar = "avatar";
+  const navigate = useNavigate();
+
+  function openChat(id) {
+    console.log(id);
+    navigate("/chat");
+  }
+
   return (
     <div className="flex flex-col p-6 gap-5">
       <div className="flex justify-between">
@@ -33,14 +41,16 @@ export default function ChatList() {
         time="now"
         unread={1}
         avatar="https://i.pravatar.cc/150?img=12"
+        event={() => openChat(1)}
       />
 
       <ChatCard
-        name="Ron Harry"
-        message="Hi, how are you"
-        time="now"
+        name="John Doe"
+        message="Hello 👋"
+        time="19:20pm"
         unread={1}
         avatar="https://i.pravatar.cc/150?img=12"
+        event={() => openChat(2)}
       />
     </div>
   );
