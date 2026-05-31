@@ -34,10 +34,6 @@ export default function SigninPage() {
     e.preventDefault();
     console.log("function ran");
 
-    const values = formData;
-
-    console.log({ ...values, password: null });
-
     navigate("/verify");
   }
   return (
