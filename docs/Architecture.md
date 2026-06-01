@@ -18,11 +18,11 @@ chat-app/
 ├── server/                  # Backend (Node.js + Express)
 │   ├── src/
 │   │   ├── config/          # DB config, environment setup
-│   │   ├── controllers/     # Request handlers / logic
-│   │   ├── routes/          # API routes
-│   │   ├── repositories/
+│   │   ├── core/            # helper function
+│   │   ├── api/             # version API routes
+│   │   ├── modules/
 │   │   ├── middlewares/     # Auth, validation, etc.
-│   │   ├── services/        # Business logic layer
+│   │   ├── test/            # test
 │   │   ├── sockets/         # WebSocket / Socket.io logic
 │   │   └── index.js
 │   ├── package.json

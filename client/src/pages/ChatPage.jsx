@@ -19,22 +19,9 @@ export default function ChatPage() {
     },
     {
       id: 2,
-      sender: "other",
-      name: "Sarah",
-      text: "Did you finish the chat API?",
-      time: "10:21 AM",
-    },
-    {
-      id: 3,
       sender: "me",
-      text: "Almost done. Just testing socket events now.",
+      text: "Hello. How are you?",
       time: "10:22 AM",
-    },
-    {
-      id: 4,
-      sender: "me",
-      text: "I’ll push the update later today 🚀",
-      time: "10:23 AM",
     },
   ];
 
