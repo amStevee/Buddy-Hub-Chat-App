@@ -130,9 +130,9 @@ export default function SignupPage() {
             />
             <InputGroupAddon align="inline-end">
               {visible ? (
-                <Eye onClick={() => setVisible(!visible)} />
+                <Eye onClick={() => setVisible(!visible)} className="cursor-pointer" />
               ) : (
-                <EyeOffIcon onClick={() => setVisible(!visible)} />
+                <EyeOffIcon onClick={() => setVisible(!visible)} className="cursor-pointer" />
               )}
             </InputGroupAddon>
           </InputGroup>
@@ -159,9 +159,15 @@ export default function SignupPage() {
             />
             <InputGroupAddon align="inline-end">
               {visible ? (
-                <Eye onClick={() => setVisible(!visible)} />
+                <Eye
+                  onClick={() => setVisible(!visible)}
+                  className="cursor-pointer"
+                />
               ) : (
-                <EyeOffIcon onClick={() => setVisible(!visible)} />
+                <EyeOffIcon
+                  onClick={() => setVisible(!visible)}
+                  className="cursor-pointer"
+                />
               )}
             </InputGroupAddon>
           </InputGroup>
