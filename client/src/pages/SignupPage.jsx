@@ -126,7 +126,6 @@ export default function SignupPage() {
               placeholder="Enter password"
               onChange={handleFormData}
               value={formData.password}
-              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$"
               required
             />
             <InputGroupAddon align="inline-end">
