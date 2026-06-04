@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/server.js",
   "scripts": {
     "build": "node ./src/server.js",
     "dev": "nodemon ./src/server.js",
@@ -16,6 +16,10 @@
   "license": "ISC",
   "packageManager": "pnpm@10.12.2",
   "dependencies": {
+    "@prisma/client": "^7.8.0",
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "prisma": "^7.8.0"
   }
 }
