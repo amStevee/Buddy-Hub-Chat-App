@@ -35,3 +35,7 @@ yarn-error.log*
 dump.rdb
 
 /src/generated/prisma
+
+/src/generated/prisma
+
+/generated/prisma
