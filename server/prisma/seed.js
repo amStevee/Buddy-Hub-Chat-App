@@ -1,7 +1,9 @@
 import "dotenv/config";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../prisma/generated/client";
+import { PrismaClient } from "../src/generated/prisma/index.js";
+import { hashPassword } from "../src/core/utils.js";
+// import { PrismaClient } from "../src/generated/client";
 
 const connectionString = `${process.env.DATABASE_URL}`;
 const pool = new Pool({ connectionString });
@@ -9,20 +11,26 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  const alice = await prisma.user.upsert({
-    where: { email: "alice@prisma.io" },
+  await prisma.users.deleteMany({});
+
+  const alice = await prisma.users.upsert({
+    where: { email: "alice@example.com" },
     update: {},
     create: {
-      email: "alice@prisma.io",
-      name: "Alice",
+      first_name: "Alice",
+      last_name: "Smith",
+      email: "alice@example.com",
+      password_hash: await hashPassword("string"),
     },
   });
-  const bob = await prisma.user.upsert({
+  const bob = await prisma.users.upsert({
     where: { email: "bob@prisma.io" },
     update: {},
     create: {
-      email: "bob@prisma.io",
-      name: "Bob",
+      first_name: "Bob",
+      last_name: "Johnson",
+      email: "bob@example.com",
+      password_hash: await hashPassword("string"),
     },
   });
   console.log({ alice, bob });

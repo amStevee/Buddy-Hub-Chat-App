@@ -4,8 +4,8 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -14,12 +14,15 @@ datasource db {
 
 
 model Users {
-  id String @default(uuid()) @unique
-  username String @db.VarChar(50) @unique
+  id String @id @default(uuid())
+  first_name String @db.VarChar(50)
+  last_name String @db.VarChar(50)
   email String @db.VarChar(255) @unique
   password_hash String @db.Text
   created_at DateTime @default(now())
   messages Messages[]
+
+  @@map("users")
 }
 
 model Rooms {
@@ -27,6 +30,8 @@ model Rooms {
   name String @db.VarChar(100)
   created_at DateTime @default(now()) 
   messages Messages[]
+
+  @@map("rooms")
 }
 
 model Messages {
@@ -38,4 +43,6 @@ model Messages {
   room Rooms @relation(fields: [room_id], references: [id])
   created_at DateTime @default(now())
   @@index([room_id, created_at])
+
+  @@map("messages")
 }
