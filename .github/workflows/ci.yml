@@ -24,7 +24,8 @@ jobs:
         run: pnpm install
 
       - name: Generate Prisma Client
-        run: pnpm --filter server dlx prisma generate
+        working-directory: ./server
+        run: pnpm dlx prisma generate
 
       - name: Build application
         run: pnpm run build
