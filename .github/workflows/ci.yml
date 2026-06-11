@@ -27,5 +27,11 @@ jobs:
         working-directory: ./server
         run: pnpm dlx prisma generate
 
+      - name: Run server tests
+        working-directory: ./server
+        run: pnpm test
+
       - name: Build application
         run: pnpm run build
+
+      
