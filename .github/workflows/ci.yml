@@ -31,13 +31,13 @@ jobs:
         working-directory: ./server
         run: pnpm dlx prisma db push --accept-data-loss
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }} # Or your CI test database string
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Run server tests
         working-directory: ./server
         run: pnpm test
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Build application
         run: pnpm run build
-
-      
