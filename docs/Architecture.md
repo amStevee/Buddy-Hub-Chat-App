@@ -20,9 +20,9 @@ chat-app/
 │   │   ├── config/          # DB config, environment setup
 │   │   ├── core/            # helper function
 │   │   ├── api/             # version API routes
-│   │   ├── modules/
+│   │   ├── modules/         # e.g User/(route, controller, servises, repository, dto)
 │   │   ├── middlewares/     # Auth, validation, etc.
-│   │   ├── test/            # test
+│   │   ├── test/            # unit tests
 │   │   ├── sockets/         # WebSocket / Socket.io logic
 │   │   └── index.js
 │   ├── package.json
@@ -31,12 +31,13 @@ chat-app/
 ├── docs/                    # Project documentation
 │   ├── API.md
 │   ├── ARCHITECTURE.md
+│   ├── DATABASE.md
 │   └── CONTRIBUTING.md
 │
 ├── .github/
 │   ├── workflows/           # CI/CD pipelines
 │   │   └── ci.yml
-│   └── ISSUE_TEMPLATE/      # (Optional)
+│   └── ISSUE_TEMPLATE/
 │
 ├── .env.example             # Example environment variables
 ├── .gitignore

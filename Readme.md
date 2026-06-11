@@ -11,6 +11,7 @@ Buddy-Hub is an application that lets family, friend, and team members send text
 2. Backend:
    - Node.js
    - Express
+   - Prisima
 3. Database:
    - PostgreSQL
 4. Realtime:
@@ -22,7 +23,11 @@ Buddy-Hub is an application that lets family, friend, and team members send text
 
 ## API Documentation
 
-[API Documentation](./API.md)
+[API Documentation](./docs//API.md)
+
+## Database Documentation
+
+[Database Documentation](./docs/Database.md)
 
 # Setup Guide
 
@@ -31,7 +36,7 @@ Buddy-Hub is an application that lets family, friend, and team members send text
 Make sure you have the following installed:
 
 - Node.js (V22.14.0+)
-- pnpm ``` npm install -g pnpm@latest-10 ```
+- pnpm `npm install -g pnpm@latest-10`
 - Git
 
 1. Clone the repository by running `git clone https://github.com/amStevee/Buddy-Hub-Chat-App.git`

@@ -1,1 +1,18 @@
-console.log("Server is running..");
+import express from "express";
+import v1Routes from "./api/v1/routes.js";
+import { errorMiddleware } from "./core/ErrorHandler.js";
+
+const app = express();
+
+app.use(express.json());
+
+app.use("/api/v1", v1Routes);
+
+// health check (for testing)
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+app.use(errorMiddleware);
+
+export default app;
