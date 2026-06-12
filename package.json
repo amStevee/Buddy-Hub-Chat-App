@@ -10,6 +10,7 @@
     "dev:server": "pnpm --filter server dev",
     "build:client": "pnpm --filter client build",
     "build:server": "pnpm --filter server build",
+    "start": "pnpm build:client && pnpm --filter server start",
     "test": "pnpm -r run test"
   },
   "keywords": [
