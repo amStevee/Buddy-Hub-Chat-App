@@ -1,17 +1,12 @@
 ```
 chat-app/
-├── client/                  # Frontend (React + Vite)
+├── client/                  # Frontend (Vanilla javaScript + Vite)
 │   ├── public/
 │   ├── src/
-│   │   ├── assets/          # Images, icons
 │   │   ├── components/      # Reusable UI components
-│   │   ├── features/        # Chat, Auth, etc.
-│   │   ├── pages/           # Routes / screens
-│   │   ├── hooks/           # Custom hooks
-│   │   ├── services/        # API calls
-│   │   ├── store/           # State management
-│   │   ├── utils/           # Helper functions
-│   │   └── App.jsx
+│   │   ├── pages/
+│   │   ├── styles/
+│   │   └── index.html
 │   ├── package.json
 │   └── README.md
 │

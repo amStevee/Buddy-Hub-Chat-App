@@ -5,9 +5,8 @@ Buddy-Hub is an application that lets family, friend, and team members send text
 ## Teach Stack
 
 1. Frontend:
-   - React
+   - Vanilla javaScript + vite
    - Tailwindcss
-   - Redux tool kit
 2. Backend:
    - Node.js
    - Express
