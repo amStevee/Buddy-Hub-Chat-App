@@ -40,4 +40,21 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Build application
+      - name: Generate Prisma Client
+        working-directory: ./server
+        run: pnpm dlx prisma generate
+
+      - name: Push Database Schema
+        working-directory: ./server
+        run: pnpm dlx prisma db push --accept-data-loss
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Run server tests
+        working-directory: ./server
+        run: pnpm test
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Build application
         run: pnpm run build
