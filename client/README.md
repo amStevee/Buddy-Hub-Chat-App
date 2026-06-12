@@ -1,16 +1,48 @@
-# React + Vite
+# Buddy Hub - Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Front-end for Buddy Hub, a team messaging app. Built with Vite, Tailwind CSS, and vanilla JS (ES modules).
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+pnpm install
+pnpm dev
+```
 
-## React Compiler
+Open the printed local URL. The dev server starts on the onboarding screen.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Build
 
-## Expanding the ESLint configuration
+```bash
+pnpm build
+pnpm preview
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Structure
+
+```
+client/
+├── index.html                 # Vite entry, redirects to onboarding
+├── tailwind.config.js         # Design tokens (colors, fonts, radii, spacing)
+├── postcss.config.js
+├── vite.config.js             # Multi-page build entries
+├── package.json
+└── src/
+    ├── styles/
+    │   └── main.css           # Tailwind directives + custom component CSS
+    ├── components/
+    │   ├── Button/Button.js
+    │   ├── Input/Input.js     # text/password fields, OTP group, strength meter
+    │   ├── Avatar/Avatar.js
+    │   ├── ChatItem/ChatItem.js
+    │   └── MessageBubble/MessageBubble.js
+    └── pages/
+        ├── onboarding/        # index.html + main.js
+        ├── login/
+        ├── signup/
+        ├── otp/
+        ├── chats/
+        └── conversation/
+```
+
+Each page has its markup (`index.html`) and its logic (`main.js`) separated.
