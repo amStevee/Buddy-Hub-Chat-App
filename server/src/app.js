@@ -1,6 +1,7 @@
 import express from "express";
 import v1Routes from "./api/v1/routes.js";
 import { errorMiddleware } from "./core/ErrorHandler.js";
+import path from "path";
 
 const app = express();
 
