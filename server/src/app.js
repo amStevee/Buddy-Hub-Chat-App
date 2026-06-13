@@ -18,9 +18,10 @@ app.get("/api/health", (req, res) => {
 });
 
 
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(clientBuildPath, "index.html"));
 });
+
 
 app.use(errorMiddleware);
 
