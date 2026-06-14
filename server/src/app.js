@@ -2,6 +2,10 @@ import express from "express";
 import v1Routes from "./api/v1/routes.js";
 import { errorMiddleware } from "./core/ErrorHandler.js";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -17,11 +21,9 @@ app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
-
 app.use((req, res) => {
   res.sendFile(path.join(clientBuildPath, "index.html"));
 });
-
 
 app.use(errorMiddleware);
 

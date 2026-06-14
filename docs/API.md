@@ -37,9 +37,11 @@ Creates a new user account.
 
 ```json
 {
-  "username": "john_doe",
-  "email": "john@example.com",
-  "password": "strongpassword"
+  "first_name": "Test",
+  "last_name": "User",
+  "phone": "+234-010203994",
+  "email": "test.user@example.com",
+  "password": "Password123!"
 }
 ```
 
@@ -51,7 +53,10 @@ Creates a new user account.
   "user": {
     "id": 1,
     "username": "john_doe",
-    "email": "john@example.com"
+    "first_name": "Test",
+    "last_name": "User",
+    "phone": "+234-010203994",
+    "email": "test.user@example.com"
   }
 }
 ```
@@ -77,11 +82,12 @@ Authenticates a user and returns a JWT token.
 
 ```json
 {
-  "token": "jwt_token_here",
   "user": {
     "id": 1,
-    "username": "john_doe",
-    "email": "john@example.com"
+    "first_name": "Test",
+    "last_name": "User",
+    "phone": "+234-010203994",
+    "email": "test.user@example.com"
   }
 }
 ```
@@ -105,8 +111,10 @@ Authorization: Bearer <token>
 ```json
 {
   "id": 1,
-  "username": "john_doe",
-  "email": "john@example.com"
+  "first_name": "Test",
+  "last_name": "User",
+  "phone": "+234-010203994",
+  "email": "test.user@example.com"
 }
 ```
 
@@ -126,7 +134,7 @@ Creates a new chat room.
 
 ```json
 {
-  "name": "General Chat"
+  "name": "room:usr_id1:usr_id5"
 }
 ```
 
@@ -135,7 +143,7 @@ Creates a new chat room.
 ```json
 {
   "id": 1,
-  "name": "General Chat",
+  "name": "room:usr_id1:usr_id5",
   "created_at": "2026-06-03T10:00:00Z"
 }
 ```
@@ -154,7 +162,7 @@ Fetch all chat rooms.
 [
   {
     "id": 1,
-    "name": "General Chat",
+    "name": "room:usr_id1:usr_id5",
     "created_at": "2026-06-03T10:00:00Z"
   }
 ]
@@ -171,7 +179,7 @@ Fetch all chat rooms.
 ```json
 {
   "id": 1,
-  "name": "General Chat",
+  "name": "room:usr_id1:usr_id5",
   "created_at": "2026-06-03T10:00:00Z"
 }
 ```
@@ -357,7 +365,9 @@ Broadcasted to all room members:
 ```json
 {
   "id": 1,
-  "username": "string",
+  "first_name": "string",
+  "last_name": "string",
+  "phone": "string",
   "email": "string",
   "created_at": "timestamp"
 }
@@ -370,7 +380,7 @@ Broadcasted to all room members:
 ```json
 {
   "id": 1,
-  "name": "string",
+  "name": "string", //combination of first_name and last_name
   "created_at": "timestamp"
 }
 ```

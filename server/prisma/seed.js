@@ -19,6 +19,7 @@ async function main() {
     create: {
       first_name: "Alice",
       last_name: "Smith",
+      phone: "+234-010203994",
       email: "alice@example.com",
       password_hash: await hashPassword("string"),
     },
@@ -30,6 +31,7 @@ async function main() {
       first_name: "Bob",
       last_name: "Johnson",
       email: "bob@example.com",
+      phone: "+234-010203994",
       password_hash: await hashPassword("string"),
     },
   });

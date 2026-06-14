@@ -34,6 +34,7 @@ describe("POST /api/v1/users", () => {
     const newUser = {
       first_name: "Test",
       last_name: "User",
+      phone: "+234-010203994",
       email: "test.user@example.com",
       password: "Password123!",
     };
@@ -56,6 +57,7 @@ describe("POST /api/v1/users", () => {
       expect.objectContaining({
         first_name: "Test",
         last_name: "User",
+        phone: "+234-010203994",
         email: "test.user@example.com",
       }),
     );
