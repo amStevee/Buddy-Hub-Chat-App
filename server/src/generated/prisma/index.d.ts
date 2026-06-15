@@ -1123,6 +1123,7 @@ export namespace Prisma {
     id: string | null
     first_name: string | null
     last_name: string | null
+    phone: string | null
     email: string | null
     password_hash: string | null
     created_at: Date | null
@@ -1132,6 +1133,7 @@ export namespace Prisma {
     id: string | null
     first_name: string | null
     last_name: string | null
+    phone: string | null
     email: string | null
     password_hash: string | null
     created_at: Date | null
@@ -1141,6 +1143,7 @@ export namespace Prisma {
     id: number
     first_name: number
     last_name: number
+    phone: number
     email: number
     password_hash: number
     created_at: number
@@ -1152,6 +1155,7 @@ export namespace Prisma {
     id?: true
     first_name?: true
     last_name?: true
+    phone?: true
     email?: true
     password_hash?: true
     created_at?: true
@@ -1161,6 +1165,7 @@ export namespace Prisma {
     id?: true
     first_name?: true
     last_name?: true
+    phone?: true
     email?: true
     password_hash?: true
     created_at?: true
@@ -1170,6 +1175,7 @@ export namespace Prisma {
     id?: true
     first_name?: true
     last_name?: true
+    phone?: true
     email?: true
     password_hash?: true
     created_at?: true
@@ -1252,6 +1258,7 @@ export namespace Prisma {
     id: string
     first_name: string
     last_name: string
+    phone: string
     email: string
     password_hash: string
     created_at: Date
@@ -1278,6 +1285,7 @@ export namespace Prisma {
     id?: boolean
     first_name?: boolean
     last_name?: boolean
+    phone?: boolean
     email?: boolean
     password_hash?: boolean
     created_at?: boolean
@@ -1289,6 +1297,7 @@ export namespace Prisma {
     id?: boolean
     first_name?: boolean
     last_name?: boolean
+    phone?: boolean
     email?: boolean
     password_hash?: boolean
     created_at?: boolean
@@ -1298,6 +1307,7 @@ export namespace Prisma {
     id?: boolean
     first_name?: boolean
     last_name?: boolean
+    phone?: boolean
     email?: boolean
     password_hash?: boolean
     created_at?: boolean
@@ -1307,12 +1317,13 @@ export namespace Prisma {
     id?: boolean
     first_name?: boolean
     last_name?: boolean
+    phone?: boolean
     email?: boolean
     password_hash?: boolean
     created_at?: boolean
   }
 
-  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "first_name" | "last_name" | "email" | "password_hash" | "created_at", ExtArgs["result"]["users"]>
+  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "first_name" | "last_name" | "phone" | "email" | "password_hash" | "created_at", ExtArgs["result"]["users"]>
   export type UsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | Users$messagesArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
@@ -1329,6 +1340,7 @@ export namespace Prisma {
       id: string
       first_name: string
       last_name: string
+      phone: string
       email: string
       password_hash: string
       created_at: Date
@@ -1759,6 +1771,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Users", 'String'>
     readonly first_name: FieldRef<"Users", 'String'>
     readonly last_name: FieldRef<"Users", 'String'>
+    readonly phone: FieldRef<"Users", 'String'>
     readonly email: FieldRef<"Users", 'String'>
     readonly password_hash: FieldRef<"Users", 'String'>
     readonly created_at: FieldRef<"Users", 'DateTime'>
@@ -4335,6 +4348,7 @@ export namespace Prisma {
     id: 'id',
     first_name: 'first_name',
     last_name: 'last_name',
+    phone: 'phone',
     email: 'email',
     password_hash: 'password_hash',
     created_at: 'created_at'
@@ -4436,6 +4450,7 @@ export namespace Prisma {
     id?: StringFilter<"Users"> | string
     first_name?: StringFilter<"Users"> | string
     last_name?: StringFilter<"Users"> | string
+    phone?: StringFilter<"Users"> | string
     email?: StringFilter<"Users"> | string
     password_hash?: StringFilter<"Users"> | string
     created_at?: DateTimeFilter<"Users"> | Date | string
@@ -4446,6 +4461,7 @@ export namespace Prisma {
     id?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    phone?: SortOrder
     email?: SortOrder
     password_hash?: SortOrder
     created_at?: SortOrder
@@ -4454,6 +4470,7 @@ export namespace Prisma {
 
   export type UsersWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    phone?: string
     email?: string
     AND?: UsersWhereInput | UsersWhereInput[]
     OR?: UsersWhereInput[]
@@ -4463,12 +4480,13 @@ export namespace Prisma {
     password_hash?: StringFilter<"Users"> | string
     created_at?: DateTimeFilter<"Users"> | Date | string
     messages?: MessagesListRelationFilter
-  }, "id" | "email">
+  }, "id" | "phone" | "email">
 
   export type UsersOrderByWithAggregationInput = {
     id?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    phone?: SortOrder
     email?: SortOrder
     password_hash?: SortOrder
     created_at?: SortOrder
@@ -4484,6 +4502,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Users"> | string
     first_name?: StringWithAggregatesFilter<"Users"> | string
     last_name?: StringWithAggregatesFilter<"Users"> | string
+    phone?: StringWithAggregatesFilter<"Users"> | string
     email?: StringWithAggregatesFilter<"Users"> | string
     password_hash?: StringWithAggregatesFilter<"Users"> | string
     created_at?: DateTimeWithAggregatesFilter<"Users"> | Date | string
@@ -4596,6 +4615,7 @@ export namespace Prisma {
     id?: string
     first_name: string
     last_name: string
+    phone: string
     email: string
     password_hash: string
     created_at?: Date | string
@@ -4606,6 +4626,7 @@ export namespace Prisma {
     id?: string
     first_name: string
     last_name: string
+    phone: string
     email: string
     password_hash: string
     created_at?: Date | string
@@ -4616,6 +4637,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     last_name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password_hash?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4626,6 +4648,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     last_name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password_hash?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4636,6 +4659,7 @@ export namespace Prisma {
     id?: string
     first_name: string
     last_name: string
+    phone: string
     email: string
     password_hash: string
     created_at?: Date | string
@@ -4645,6 +4669,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     last_name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password_hash?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4654,6 +4679,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     last_name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password_hash?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4799,6 +4825,7 @@ export namespace Prisma {
     id?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    phone?: SortOrder
     email?: SortOrder
     password_hash?: SortOrder
     created_at?: SortOrder
@@ -4808,6 +4835,7 @@ export namespace Prisma {
     id?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    phone?: SortOrder
     email?: SortOrder
     password_hash?: SortOrder
     created_at?: SortOrder
@@ -4817,6 +4845,7 @@ export namespace Prisma {
     id?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    phone?: SortOrder
     email?: SortOrder
     password_hash?: SortOrder
     created_at?: SortOrder
@@ -5188,6 +5217,7 @@ export namespace Prisma {
     id?: string
     first_name: string
     last_name: string
+    phone: string
     email: string
     password_hash: string
     created_at?: Date | string
@@ -5197,6 +5227,7 @@ export namespace Prisma {
     id?: string
     first_name: string
     last_name: string
+    phone: string
     email: string
     password_hash: string
     created_at?: Date | string
@@ -5239,6 +5270,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     last_name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password_hash?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5248,6 +5280,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
     last_name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password_hash?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
