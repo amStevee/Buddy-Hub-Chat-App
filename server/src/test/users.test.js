@@ -2,6 +2,7 @@ import request from "supertest";
 import app from "../app.js"; // Added .js extension
 import { prisma, pool } from "../core/prisma.js"; // Added .js extension
 import dotenv from "dotenv";
+import { hashPassword } from "../core/utils.js";
 
 dotenv.config();
 
@@ -36,7 +37,7 @@ describe("POST /api/v1/users", () => {
       last_name: "User",
       phone: "+234-010203994",
       email: "test.user@example.com",
-      password: "Password123!",
+      password: "TestPassword123"
     };
 
     const response = await request(app)

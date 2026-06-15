@@ -3,8 +3,8 @@ import { CustomError } from "../../core/ErrorHandler.js";
 import bcrypt from "bcrypt";
 import { hashPassword } from "../../core/utils.js";
 
-async function createUser({ first_name, last_name, email, password }) {
-  if (!first_name || !last_name || !email || !password) {
+async function createUser({ first_name, last_name, phone, email, password }) {
+  if (!first_name || !last_name || !phone || !email || !password) {
     throw new CustomError("Missing required fields", 400);
   }
   const isUser = await prisma.users.findUnique({ where: { email } });
@@ -15,7 +15,9 @@ async function createUser({ first_name, last_name, email, password }) {
 
   const result = await prisma.users.create({
     data: {
-      first_name, last_name,
+      first_name,
+      last_name,
+      phone,
       email,
       password_hash,
     },
