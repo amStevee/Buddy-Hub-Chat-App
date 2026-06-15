@@ -15,7 +15,7 @@ export const BuddyAvatar = {
 
     const badge = online
       ? `<span class="presence-badge absolute bottom-0 right-0" aria-label="Online"></span>`
-      : '';
+      : "";
 
     return `
       <div class="relative" style="width:${size}px;height:${size}px;">
