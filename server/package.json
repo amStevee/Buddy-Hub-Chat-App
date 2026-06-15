@@ -7,7 +7,7 @@
   "scripts": {
     "build": "echo 'No build step needed for server'",
     "dev": "nodemon ./src/server.js",
-    "test": "jest --detectOpenHandles",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles",
     "start": "node ./src/server.js"
   },
   "engines": {
@@ -29,6 +29,7 @@
     "@babel/core": "^7.29.7",
     "@babel/preset-env": "^7.29.7",
     "@prisma/adapter-pg": "^7.8.0",
+    "cross-env": "^10.1.0",
     "jest": "^30.4.2",
     "prisma": "^7.8.0",
     "supertest": "^7.2.2"
