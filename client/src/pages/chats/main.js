@@ -53,57 +53,7 @@ function renderFilterPills(containerId) {
 renderFilterPills("filter-pills-desktop");
 renderFilterPills("filter-pills-mobile");
 
-// Chat data
-const chats = [
-  {
-    initials: "SM",
-    name: "Orochimaru Martinez",
-    preview: "Cool",
-    time: "2:45 PM",
-    online: true,
-    unread: 3,
-  },
-  {
-    initials: "PT",
-    name: "Itachi Uchiha",
-    preview: "Alex: Any updates?",
-    time: "1:30 PM",
-    online: false,
-    unread: 12,
-  },
-  {
-    initials: "JK",
-    name: "Hashirama Senju",
-    preview: "Thanks for the help today 🙏",
-    time: "11:02 AM",
-    online: true,
-    unread: 0,
-  },
-  {
-    initials: "DG",
-    name: "Madara Uchiha",
-    preview: "You: a world full of vectors..",
-    time: "Yesterday",
-    online: false,
-    unread: 0,
-  },
-  {
-    initials: "EL",
-    name: "Kakashi Hatake",
-    preview: "Can we push the meeting to 3?",
-    time: "Yesterday",
-    online: true,
-    unread: 1,
-  },
-  {
-    initials: "EW",
-    name: "Obito Uchiha",
-    preview: "Reminder: lost",
-    time: "Mon",
-    online: false,
-    unread: 0,
-  },
-];
+let chats = [];
 
 function renderChatList(containerId) {
   const container = document.getElementById(containerId);
@@ -113,9 +63,86 @@ function renderChatList(containerId) {
 
   container.querySelectorAll("button").forEach((btn, i) => {
     btn.addEventListener("click", () => {
-      window.location.href = `/src/pages/conversation/index.html?chat=${i}`;
+      const room = chats[i];
+      window.location.href = `/src/pages/conversation/index.html?room=${room.id}`;
     });
   });
 }
-renderChatList("chat-list-desktop");
-renderChatList("chat-list-mobile");
+
+const token = localStorage.getItem("authToken");
+if (!token) {
+  window.location.href = "/src/pages/login/index.html";
+}
+
+async function loadRooms() {
+  try {
+    const res = await fetch("/api/v1/rooms", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) throw new Error("Failed to load rooms");
+    const data = await res.json();
+    chats = data.map((r) => ({
+      initials: r.name.slice(0, 2).toUpperCase(),
+      name: r.name,
+      preview: "",
+      time: new Date(r.created_at).toLocaleTimeString(),
+      online: false,
+      unread: 0,
+      id: r.id,
+    }));
+    renderChatList("chat-list-desktop");
+    renderChatList("chat-list-mobile");
+  } catch (err) {
+    console.error("loadRooms error", err);
+  }
+}
+
+loadRooms();
+
+// Socket.IO: allow creating new chat rooms
+import { io } from "socket.io-client";
+const socket = io("/", { auth: { token } });
+
+async function createChatWith(otherUserId) {
+  try {
+    const meResp = await fetch("/api/v1/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!meResp.ok) throw new Error("Failed to fetch current user");
+    const me = await meResp.json();
+
+    socket.emit(
+      "create_room",
+      { participants: [me.id, otherUserId] },
+      (err, res) => {
+        if (err) return console.error(err);
+        if (!res?.room?.id) return;
+
+        const room = res.room;
+        chats.unshift({
+          initials: room.name.slice(0, 2).toUpperCase(),
+          name: room.name,
+          preview: "",
+          time: "Now",
+          online: false,
+          unread: 0,
+          id: room.id,
+        });
+        renderChatList("chat-list-desktop");
+        renderChatList("chat-list-mobile");
+        window.location.href = `/src/pages/conversation/index.html?room=${room.id}`;
+      },
+    );
+  } catch (err) {
+    console.error("createChatWith error", err);
+  }
+}
+
+// Example: add button handler if present
+const addBtn = document.getElementById("add-chat-btn");
+if (addBtn) {
+  addBtn.addEventListener("click", async () => {
+    const other = prompt("Enter user id to chat with");
+    if (other) await createChatWith(other.trim());
+  });
+}
