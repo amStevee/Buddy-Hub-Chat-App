@@ -31,14 +31,17 @@ async function createUser({ first_name, last_name, phone, email, password }) {
 }
 
 async function findByEmail(email) {
+  if (!email) return null;
   return prisma.users.findUnique({ where: { email } });
 }
 
 async function findByPhone(phone) {
+  if (!phone) return null;
   return prisma.users.findUnique({ where: { phone } });
 }
 
 async function findById(id) {
+  if (!id) return null;
   return prisma.users.findUnique({ where: { id } });
 }
 
