@@ -1,30 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Buddy Hub - Verify</title>
-</head>
-<body class="font-body min-h-screen flex items-center justify-center bg-gray-50 px-6">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buddy Hub - Verify</title>
+  </head>
+  <body
+    class="font-body min-h-screen flex items-center justify-center bg-gray-50 px-6"
+  >
+    <div class="w-full max-w-sm text-center">
+      <h1 class="font-heading text-2xl font-bold text-gray-900 mb-2">
+        Verify your number
+      </h1>
+      <p class="text-gray-600 text-sm mb-8">
+        Enter the 6-digit code we sent to
+        <span id="otp-phone-number" class="font-semibold text-gray-900"
+          >+1 (555) 123-4567</span
+        >
+      </p>
 
-  <div class="w-full max-w-sm text-center">
-    <h1 class="font-heading text-2xl font-bold text-gray-900 mb-2">Verify your number</h1>
-    <p class="text-gray-600 text-sm mb-8">
-      Enter the 6-digit code we sent to <span class="font-semibold text-gray-900">+1 (555) 123-4567</span>
-    </p>
+      <div id="otp-wrapper" class="flex justify-center mb-6"></div>
 
-    <div id="otp-wrapper" class="flex justify-center mb-6"></div>
+      <p
+        id="status-text"
+        class="text-sm text-gray-600 mb-2"
+        aria-live="polite"
+      ></p>
 
-    <p id="status-text" class="text-sm text-gray-600 mb-2" aria-live="polite"></p>
-
-    <div id="resend-wrapper" class="text-sm">
-      <span id="resend-timer" class="text-gray-400">Resend in 00:30</span>
-      <button id="resend-action" class="hidden text-primary-600 font-semibold hover:text-primary-700 transition focus-ring rounded">
-        Resend Code
-      </button>
+      <div id="resend-wrapper" class="text-sm">
+        <span id="resend-timer" class="text-gray-400">Resend in 00:30</span>
+        <button
+          id="resend-action"
+          class="hidden text-primary-600 font-semibold hover:text-primary-700 transition focus-ring rounded"
+        >
+          Resend Code
+        </button>
+      </div>
     </div>
-  </div>
 
-  <script type="module" src="./main.js"></script>
-</body>
+    <script type="module" src="./main.js"></script>
+  </body>
 </html>
