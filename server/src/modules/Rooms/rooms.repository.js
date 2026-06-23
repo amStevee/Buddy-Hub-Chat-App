@@ -1,15 +1,54 @@
 import { prisma } from "../../core/prisma.js";
 
-async function findAll() {
-  return prisma.rooms.findMany({ orderBy: { created_at: "desc" } });
+async function findAll(user_id) {
+  return prisma.rooms.findMany({
+    where: {
+      participants: {
+        some: {
+          user_id,
+        },
+      },
+    },
+    include: {
+      participants: {
+        include: {
+          user: true,
+        },
+      },
+
+      messages: {
+        orderBy: {
+          created_at: "asc",
+        },
+      },
+    },
+    orderBy: { created_at: "desc" },
+  });
 }
 
 async function findByName(name) {
-  return prisma.rooms.findFirst({ where: { name } });
+  return prisma.rooms.findFirst({
+    where: { name },
+  });
 }
 
 async function findById(id) {
-  return prisma.rooms.findUnique({ where: { id } });
+  return prisma.rooms.findUnique({
+    where: { id },
+    include: {
+      participants: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              first_name: true,
+              last_name: true,
+            },
+          },
+        },
+      },
+    },
+  });
 }
 
 async function createRoom(data) {

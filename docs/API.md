@@ -41,7 +41,7 @@ Creates a new user account.
   "last_name": "User",
   "phone": "+234-010203994",
   "email": "test.user@example.com",
-  "password": "Password123!"
+  "password": "Password123!" //hased
 }
 ```
 
@@ -74,7 +74,7 @@ Authenticates a user and returns a JWT token.
 ```json
 {
   "email": "john@example.com",
-  "password": "strongpassword"
+  "password": "strongpassword" //hased
 }
 ```
 

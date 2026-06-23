@@ -87,5 +87,5 @@ describe("POST /api/v1/users", () => {
         error: expect.any(String),
       }),
     );
-  }, 10000);
+  }, 5000);
 });

@@ -3,7 +3,7 @@ import { CustomError } from "../../core/ErrorHandler.js";
 
 async function listRooms(req, res) {
   try {
-    const rooms = await roomsRepo.findAll();
+    const rooms = await roomsRepo.findAll(req.query.userId);
     res.status(200).json(rooms);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -37,8 +37,18 @@ async function listMessages(req, res) {
   }
 }
 
+async function findParticipants(req, res) {
+  try {
+    const participants = await roomsRepo.findById(req.params.roomId);
+    res.status(200).json(participants);
+  } catch (err) {
+    res.status(err.statusCode || 500).json({ error: err.message });
+  }
+}
+
 export default {
   listRooms,
   createRoom,
   listMessages,
+  findParticipants,
 };
