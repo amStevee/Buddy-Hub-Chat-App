@@ -40,9 +40,29 @@ export default function initSockets(io) {
           throw new Error("participants required");
         }
         const name = makeRoomNameFromParticipants(participants);
-        let room = await prisma.rooms.findFirst({ where: { name } });
+        let room = await prisma.rooms.findFirst({
+          where: {
+            name,
+          },
+        });
         if (!room) {
-          room = await prisma.rooms.create({ data: { name } });
+          room = await prisma.rooms.create({
+            data: {
+              name,
+              participants: {
+                create: participants.map((userId) => ({
+                  user_id: userId,
+                })),
+              },
+            },
+            include: {
+              participants: {
+                include: {
+                  user: true,
+                },
+              },
+            },
+          });
         }
         cb && cb(null, { room });
       } catch (err) {

@@ -3,12 +3,8 @@ import { BuddyAvatar } from "../../components/Avatar/Avatar.js";
 import { BuddyMessageBubble } from "../../components/MessageBubble/MessageBubble.js";
 import { io } from "socket.io-client";
 
-document.getElementById("header-avatar").innerHTML = BuddyAvatar.render(
-  "OM",
-  null,
-  40,
-  true,
-);
+let currentUser = null;
+let otherUser = null;
 
 const messages = [];
 const messageList = document.getElementById("message-list");
@@ -26,16 +22,11 @@ if (!roomId) {
   window.location.href = "/src/pages/chats/index.html";
 }
 
-let currentUserId = null;
 const socket = io("/", { auth: { token } });
 
-function renderMessages() {
-  messageList.innerHTML = messages
-    .map((m) => BuddyMessageBubble.render(m.text, m.time, m.outgoing))
-    .join("");
-  messageList.scrollTop = messageList.scrollHeight;
-}
-
+/* =========================
+   LOAD CURRENT USER
+========================= */
 async function loadCurrentUser() {
   try {
     const res = await fetch("/api/v1/auth/me", {
@@ -43,10 +34,77 @@ async function loadCurrentUser() {
     });
     if (!res.ok) throw new Error("Failed to load user");
     const user = await res.json();
-    currentUserId = user.id;
+    currentUser = user;
   } catch (err) {
     console.error("loadCurrentUser error", err);
   }
+}
+
+async function loadOtherUser(roomId) {
+  const res = await fetch(`/api/v1/rooms/${roomId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const room = await res.json();
+
+  otherUser = room.participants.find((p) => p.user.id !== currentUser.id)?.user;
+}
+
+/* =========================
+   AVATAR HELPERS
+========================= */
+
+function getInitials(user) {
+  const name =
+    user?.full_name ||
+    user?.fullName ||
+    user?.username ||
+    user?.name ||
+    `${user.first_name} ${user.last_name}` ||
+    "Unknown User";
+
+  return name
+    .trim()
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("");
+}
+
+function renderProfileAvatar() {
+  if (!otherUser) return;
+
+  const initials = getInitials(otherUser);
+
+  const srcImg =
+    otherUser.avatar_url ||
+    otherUser.profile_image ||
+    otherUser.avatar ||
+    otherUser.image ||
+    null;
+
+  const avatarHtml = BuddyAvatar.render(initials, srcImg, 40, socket.connected);
+
+  document.getElementById("header-avatar").innerHTML = avatarHtml;
+
+  document.getElementById("receiver-name").innerHTML = otherUser?.first_name;
+}
+
+/* =========================
+   SET RECEIVER-NAME AND RECEIVER-ONLINE
+========================= */
+
+/* =========================
+   RENDER MESSAGES
+========================= */
+function renderMessages() {
+  messageList.innerHTML = messages
+    .map((m) => BuddyMessageBubble.render(m.text, m.time, m.outgoing))
+    .join("");
+  messageList.scrollTop = messageList.scrollHeight;
 }
 
 async function loadRoomMessages() {
@@ -62,11 +120,12 @@ async function loadRoomMessages() {
       const time = now.toLocaleTimeString([], {
         hour: "numeric",
         minute: "2-digit",
+        hour12: true,
       });
       messages.push({
         text: payload.text,
         time,
-        outgoing: payload.sender_id === currentUserId,
+        outgoing: payload.sender_id === currentUser.id,
       });
     });
     renderMessages();
@@ -88,8 +147,9 @@ socket.on("message", (payload) => {
   const time = now.toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit",
+    hour12: true,
   });
-  const outgoing = payload.sender_id === currentUserId;
+  const outgoing = payload.sender_id === currentUser.id;
   messages.push({ text: payload.text, time, outgoing });
   renderMessages();
 });
@@ -121,5 +181,7 @@ input.addEventListener("keydown", (e) => {
 
 (async function initialize() {
   await loadCurrentUser();
+  await loadOtherUser(roomId);
+  renderProfileAvatar();
   await loadRoomMessages();
 })();

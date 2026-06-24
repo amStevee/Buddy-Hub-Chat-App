@@ -13,25 +13,40 @@ datasource db {
 }
 
 model Users {
-  id            String     @id @default(uuid())
-  first_name    String     @db.VarChar(50)
-  last_name     String     @db.VarChar(50)
-  phone         String     @unique @db.VarChar(20)
-  email         String     @unique @db.VarChar(255)
-  password_hash String     @db.Text
-  created_at    DateTime   @default(now())
+  id            String            @id @default(uuid())
+  first_name    String            @db.VarChar(50)
+  last_name     String            @db.VarChar(50)
+  phone         String            @unique @db.VarChar(20)
+  email         String            @unique @db.VarChar(255)
+  password_hash String            @db.Text
+  created_at    DateTime          @default(now())
   messages      Messages[]
+  user          RoomParticipant[]
 
   @@map("users")
 }
 
 model Rooms {
-  id         String     @unique @default(uuid())
-  name       String     @db.VarChar(100)
-  created_at DateTime   @default(now())
-  messages   Messages[]
+  id           String            @unique @default(uuid())
+  name         String            @db.VarChar(100)
+  created_at   DateTime          @default(now())
+  messages     Messages[]
+  participants RoomParticipant[]
 
   @@map("rooms")
+}
+
+model RoomParticipant {
+  id String @unique @default(uuid())
+
+  room_id String
+  user_id String
+
+  room Rooms @relation(fields: [room_id], references: [id])
+
+  user Users @relation(fields: [user_id], references: [id])
+
+  @@unique([room_id, user_id])
 }
 
 model Messages {

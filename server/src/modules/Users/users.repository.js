@@ -30,6 +30,24 @@ async function createUser({ first_name, last_name, phone, email, password }) {
   return result;
 }
 
+async function findByEmailorPhone(query) {
+  if (!query) throw new CustomError("User not found", 400);
+  return prisma.users.findMany({
+    where: {
+      OR: [
+        {email: {
+        contains: query,
+        mode: "insensitive",
+      }},
+      {phone: {
+        contains: query,
+        mode: "insensitive",
+      }},
+      ]
+    },
+  });
+}
+
 async function findByEmail(email) {
   if (!email) return null;
   return prisma.users.findUnique({ where: { email } });
@@ -49,6 +67,7 @@ async function updateUser() {}
 
 export default {
   createUser,
+  findByEmailorPhone,
   findByEmail,
   findByPhone,
   findById,

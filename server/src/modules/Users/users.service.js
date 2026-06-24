@@ -5,6 +5,12 @@ async function createUser(data) {
   return result;
 }
 
+async function findUser(query) {
+  const result = await userRepo.findByEmailorPhone(query);
+  return result;
+}
+
 export default {
   createUser,
+  findUser,
 };

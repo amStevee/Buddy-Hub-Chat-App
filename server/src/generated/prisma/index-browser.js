@@ -136,6 +136,12 @@ exports.Prisma.RoomsScalarFieldEnum = {
   created_at: 'created_at'
 };
 
+exports.Prisma.RoomParticipantScalarFieldEnum = {
+  id: 'id',
+  room_id: 'room_id',
+  user_id: 'user_id'
+};
+
 exports.Prisma.MessagesScalarFieldEnum = {
   id: 'id',
   text: 'text',
@@ -158,6 +164,7 @@ exports.Prisma.QueryMode = {
 exports.Prisma.ModelName = {
   Users: 'Users',
   Rooms: 'Rooms',
+  RoomParticipant: 'RoomParticipant',
   Messages: 'Messages'
 };
 

@@ -86,7 +86,7 @@ function setStatus(message, type = "error") {
 }
 
 async function registerUser() {
-  setStatus("Sending OTP…", "success");
+  // setStatus("Sending OTP…", "success");
 
   const body = {
     first_name: firstName.value.trim(),
@@ -112,8 +112,11 @@ async function registerUser() {
       );
     }
 
-    sessionStorage.setItem("pendingOtpPhone", body.phone);
-    window.location.href = "/src/pages/otp/index.html";
+    // sessionStorage.setItem("pendingOtpPhone", body.phone);
+    localStorage.setItem("authToken", payload.token);
+    setStatus("user registered successfully. Redirecting…", "success");
+    window.location.href = "/src/pages/chats/index.html";
+    // window.location.href = "/src/pages/otp/index.html";
   } catch (error) {
     setStatus(error.message || "Unable to send OTP");
   }
