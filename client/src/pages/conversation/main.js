@@ -157,14 +157,7 @@ socket.on("message", (payload) => {
 async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
-  const now = new Date();
-  const time = now.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
 
-  messages.push({ text, time, outgoing: true });
-  renderMessages();
   input.value = "";
 
   socket.emit("message", { roomId, text }, (err) => {
