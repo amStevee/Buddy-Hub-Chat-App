@@ -2,6 +2,7 @@ import "../../styles/main.css";
 import { BuddyAvatar } from "../../components/Avatar/Avatar.js";
 import { BuddyChatItem } from "../../components/ChatItem/ChatItem.js";
 import { io } from "socket.io-client";
+import utils from "../../utils/formatChatTime.js";
 
 /* =========================
    AUTH + GLOBAL STATE
@@ -101,8 +102,6 @@ document
 async function searchContact() {
   const query = document.getElementById("contact-search-input").value.trim();
 
-  if (!query) return;
-
   try {
     const res = await fetch(
       `/api/v1/users/search?q=${encodeURIComponent(query)}`,
@@ -162,11 +161,98 @@ const searchHtml = `
 document.getElementById("search-wrapper").innerHTML = searchHtml;
 document.getElementById("search-wrapper-mobile").innerHTML = searchHtml;
 
+async function searchChatList(query) {
+  if (!query) return;
+
+  try {
+    const response = await fetch(`/api/v1/rooms?userId=${currentUser.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    const filteredData = data.filter((room) =>
+      room.participants.some(
+        (participant) =>
+          participant.user.id !== currentUser.id &&
+          participant.user.first_name
+            .toLowerCase()
+            .includes(query.toLowerCase()),
+      ),
+    );
+
+    chats = filteredData.map((room) => {
+      const otherParticipant = room.participants.find(
+        (p) => p.user.id !== currentUser.id,
+      );
+      const otherUser = otherParticipant ? otherParticipant.user : null;
+
+      const lastMessage =
+        room.messages && room.messages.length > 0
+          ? room.messages[room.messages.length - 1]
+          : null;
+
+      return {
+        initials: getInitials(otherUser),
+        name: otherUser.first_name,
+        preview: lastMessage ? lastMessage.text : "No message yet",
+        time:
+          lastMessage && lastMessage.created_at
+            ? utils.formatChatTime(lastMessage.created_at)
+            : "",
+        online: false,
+        unread: 0,
+        id: room.id,
+      };
+    });
+
+    renderChatList("chat-list-desktop");
+    renderChatList("chat-list-mobile");
+  } catch (error) {
+    console.error("Search query Error: ", error);
+  }
+}
+
+function debounce(func, delay) {
+  let timeoutId;
+
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
+const debouncedSearch = debounce(async (query) => {
+  await searchChatList(query);
+}, 250);
+
+function initializeSearch() {
+  const searchInput = document.querySelectorAll(
+    "input[aria-label='Search chats']",
+  );
+
+  if (searchInput.length) {
+    searchInput.forEach((input) => {
+      input.addEventListener("input", () => {
+        const trimmedValue = input.value.trim();
+        debouncedSearch(trimmedValue);
+      });
+    });
+  } else {
+    console.error("Error: could not find an element with id='search-chat");
+  }
+}
+
 /* =========================
    FILTER PILLS
 ========================= */
 
-const filters = ["All", "Unread", "Groups", "Archived"];
+// const filters = ["All", "Unread", "Groups", "Archived"];
+const filters = ["All"];
 
 function renderFilterPills(containerId) {
   const container = document.getElementById(containerId);
@@ -197,7 +283,7 @@ renderFilterPills("filter-pills-mobile");
    ROOMS / CHATS
 ========================= */
 
-function renderChatList(containerId) {
+async function renderChatList(containerId) {
   const container = document.getElementById(containerId);
 
   container.innerHTML = chats
@@ -230,22 +316,17 @@ async function loadRooms() {
 
       const lastMessage =
         room.messages && room.messages.length > 0
-          ? room.messages[room.messages.length - 1].text
-          : "No message yet";
+          ? room.messages[room.messages.length - 1]
+          : null;
 
       return {
         initials: getInitials(otherUser),
         name: otherUser.first_name,
-        preview: lastMessage,
-        time: lastMessage.created_at
-          ? new Date(lastMessage.created_at).toLocaleTimeString([], {
-              hour: "numeric",
-              minute: "2-digit",
-            })
-          : new Date().toLocaleTimeString([], {
-              hour: "numeric",
-              minute: "2-digit",
-            }),
+        preview: lastMessage ? lastMessage.text : "No message yet",
+        time:
+          lastMessage && lastMessage.created_at
+            ? utils.formatChatTime(lastMessage.created_at)
+            : "",
         online: false,
         unread: 0,
         id: room.id,
@@ -277,8 +358,6 @@ async function createChatWith(otherUserId) {
         if (!res?.room?.id) return;
 
         const room = res.room;
-
-        console.log({ SOCcreateROOM: room });
 
         const getOtherUser = room.participants.find(
           (p) => p.user.id !== currentUser.id,
@@ -312,18 +391,12 @@ async function createChatWith(otherUserId) {
 document.querySelectorAll('[data-view="contacts"]').forEach((btn) => {
   btn.addEventListener("click", async (e) => {
     e.preventDefault();
-    await loadContacts();
-    renderContacts();
+    await loadRooms();
   });
 });
-
-// const addBtn = document.getElementById("add-chat-btn");
-// addBtn?.addEventListener("click", async () => {
-//   const other = prompt("Enter user id to chat with");
-//   if (other) await createChatWith(other.trim());
-// });
 
 (async function init() {
   await loadCurrentUser();
   await loadRooms();
+  initializeSearch();
 })();

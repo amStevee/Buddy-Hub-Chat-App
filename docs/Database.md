@@ -81,6 +81,26 @@ Stores chat rooms.
 
 ---
 
+## roomParticipants
+
+Stores room participants.
+
+### Columns
+
+| Column     | Type         | Constraints               |
+| ---------- | ------------ | ------------------------- |
+| id         | SERIAL       | PRIMARY KEY               |
+| room_id    | VARCHAR(100) | REFERENCES rooms(id)      |
+| user_id    | VARCHAR(100) | REFERENCES users(id)      |
+| created_at | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP |
+
+### Notes
+
+- one user can belong to many rooms.
+- a room should have just two user for the scope of this project, but not strictly implemented
+
+---
+
 ## messages
 
 Stores chat messages.

@@ -45,6 +45,10 @@ async function findByEmailorPhone(query) {
       }},
       ]
     },
+
+    include: {
+      messages: true
+    }
   });
 }
 
