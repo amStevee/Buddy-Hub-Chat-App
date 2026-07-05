@@ -87,11 +87,13 @@ const modal = document.getElementById("contact-modal");
 
 document.getElementById("add-contact-btn")?.addEventListener("click", () => {
   modal.classList.remove("hidden");
+  modal.classList.add("flex");
 });
 
 document
   .getElementById("close-contact-modal")
   ?.addEventListener("click", () => {
+    modal.classList.remove("flex");
     modal.classList.add("hidden");
   });
 
