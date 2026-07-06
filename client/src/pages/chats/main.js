@@ -3,6 +3,7 @@ import { BuddyAvatar } from "../../components/Avatar/Avatar.js";
 import { BuddyChatItem } from "../../components/ChatItem/ChatItem.js";
 import { io } from "socket.io-client";
 import utils from "../../utils/formatChatTime.js";
+import { isValidPhoneNumber } from "../../utils/phoneValidation.js";
 
 /* =========================
    AUTH + GLOBAL STATE
@@ -385,6 +386,144 @@ async function createChatWith(otherUserId) {
     console.error("createChatWith error", err);
   }
 }
+
+/* =========================
+   SETTINGS MODAL
+========================= */
+
+function getCurrentUserName(user) {
+  return [user?.first_name, user?.last_name].filter(Boolean).join(" ").trim();
+}
+
+function renderSettingsModal() {
+  const modal = document.getElementById("settings-modal");
+  if (!modal) return;
+
+  modal.innerHTML = `
+    <div class="bg-white w-full max-w-lg rounded-3xl p-6 shadow-xl">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold text-gray-900">Settings</h2>
+        <button id="close-settings-modal" class="text-gray-500">Close</button>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+          <input id="settings-first-name" type="text" value="${currentUser?.first_name || ""}" class="w-full border rounded-xl px-4 py-3" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+          <input id="settings-last-name" type="text" value="${currentUser?.last_name || ""}" class="w-full border rounded-xl px-4 py-3" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input id="settings-email" type="email" value="${currentUser?.email || ""}" class="w-full border rounded-xl px-4 py-3" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+          <input id="settings-phone" type="tel" value="${currentUser?.phone || ""}" class="w-full border rounded-xl px-4 py-3" />
+        </div>
+
+        <p id="settings-status" class="text-sm min-h-5"></p>
+
+        <div class="flex gap-3">
+          <button id="save-settings-btn" class="flex-1 rounded-xl bg-primary-600 text-white px-4 py-3 font-semibold">Save Changes</button>
+          <button id="logout-settings-btn" class="rounded-xl border border-gray-300 px-4 py-3 font-semibold text-gray-700">Log Out</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const closeBtn = document.getElementById("close-settings-modal");
+  closeBtn?.addEventListener("click", () => {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  });
+
+  document
+    .getElementById("save-settings-btn")
+    ?.addEventListener("click", saveSettings);
+  document
+    .getElementById("logout-settings-btn")
+    ?.addEventListener("click", logoutUser);
+}
+
+async function saveSettings() {
+  if (!currentUser) return;
+
+  const firstName = document
+    .getElementById("settings-first-name")
+    ?.value.trim();
+  const lastName = document.getElementById("settings-last-name")?.value.trim();
+  const email = document.getElementById("settings-email")?.value.trim();
+  const phone = document.getElementById("settings-phone")?.value.trim();
+  const status = document.getElementById("settings-status");
+
+  if (!firstName || !lastName || !email) {
+    status.textContent = "Please fill in your name and email.";
+    status.className = "text-sm text-red-600 min-h-5";
+    return;
+  }
+
+  if (!isValidPhoneNumber(phone)) {
+    status.textContent = "Please enter a valid Nigerian phone number.";
+    status.className = "text-sm text-red-600 min-h-5";
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/v1/users/me", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        phone,
+      }),
+    });
+
+    const payload = await res.json();
+    if (!res.ok) throw new Error(payload?.error || "Unable to update profile");
+
+    currentUser = payload.user;
+    renderProfileAvatar();
+    status.textContent = "Profile updated successfully.";
+    status.className = "text-sm text-green-600 min-h-5";
+  } catch (error) {
+    status.textContent = error.message;
+    status.className = "text-sm text-red-600 min-h-5";
+  }
+}
+
+function logoutUser() {
+  localStorage.removeItem("authToken");
+  window.location.href = "/src/pages/login/index.html";
+}
+
+function openSettingsModal() {
+  renderSettingsModal();
+  const modal = document.getElementById("settings-modal");
+  if (!modal) return;
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+const settingsTrigger = document.getElementById("settings");
+settingsTrigger?.addEventListener("click", (event) => {
+  event.preventDefault();
+  openSettingsModal();
+});
+
+const settingsModal = document.createElement("div");
+settingsModal.id = "settings-modal";
+settingsModal.className =
+  "hidden fixed inset-0 bg-black/50 z-50 items-center justify-center";
+settingsModal.innerHTML = "";
+document.body.appendChild(settingsModal);
 
 /* =========================
    INIT

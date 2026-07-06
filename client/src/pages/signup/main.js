@@ -1,6 +1,7 @@
 import "../../styles/main.css";
 import { BuddyButton } from "../../components/Button/Button.js";
 import { BuddyInput } from "../../components/Input/Input.js";
+import { isValidPhoneNumber } from "../../utils/phoneValidation.js";
 
 document.getElementById("first-name-field").innerHTML = BuddyInput.text(
   "first-name",
@@ -51,7 +52,7 @@ function validate() {
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
   const namesValid =
     firstName.value.trim().length > 0 && lastName.value.trim().length > 0;
-  const phoneValid = phone.value.trim().length > 0;
+  const phoneValid = isValidPhoneNumber(phone.value);
   const passwordValid = password.value.length >= 8;
   const termsAccepted = termsCheckbox.checked;
 
@@ -86,7 +87,10 @@ function setStatus(message, type = "error") {
 }
 
 async function registerUser() {
-  // setStatus("Sending OTP…", "success");
+  if (!isValidPhoneNumber(phone.value)) {
+    setStatus("Please enter a valid Nigerian phone number");
+    return;
+  }
 
   const body = {
     first_name: firstName.value.trim(),

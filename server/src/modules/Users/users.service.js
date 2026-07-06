@@ -10,7 +10,13 @@ async function findUser(query) {
   return result;
 }
 
+async function updateUser(userId, data) {
+  const result = await userRepo.updateUser(userId, data);
+  return result;
+}
+
 export default {
   createUser,
   findUser,
+  updateUser,
 };
