@@ -5,6 +5,7 @@ import { requireAuth } from "../../modules/Auth/auth.middleware.js";
 const router = express.Router();
 
 router.post("/", usersController.createUser);
+router.put("/me", requireAuth, usersController.updateMe);
 router.get("/search", requireAuth, usersController.findUser);
 
 export default router;

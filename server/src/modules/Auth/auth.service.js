@@ -2,12 +2,11 @@ import userRepo from "../Users/users.repository.js";
 import { CustomError } from "../../core/ErrorHandler.js";
 import OtpService from "../../core/otp/OtpService.js";
 import { signJwt } from "../../core/jwt.js";
-
+import { validatePhoneNumber } from "../Users/users.validation.js";
 
 function standardizePhone(phone) {
   return phone.trim();
 }
-
 
 function validateRegisterPayload(body) {
   if (!body || typeof body !== "object" || Array.isArray(body)) {
@@ -25,11 +24,16 @@ function validateRegisterPayload(body) {
     throw new CustomError("Missing required fields", 400);
   }
 
+  const normalizedPhone = validatePhoneNumber(phone);
+  if (!normalizedPhone) {
+    throw new CustomError("Invalid Nigerian phone number", 400);
+  }
+
   return {
     first_name: first_name.trim(),
     last_name: last_name.trim(),
     email: email.trim(),
-    phone: standardizePhone(phone),
+    phone: normalizedPhone,
     password,
   };
 }
@@ -53,7 +57,11 @@ async function register(body) {
 
   const createdUser = await userRepo.createUser(user);
 
-  const token = signJwt({ id: createdUser.id, email: createdUser.email, phone: createdUser.phone });
+  const token = signJwt({
+    id: createdUser.id,
+    email: createdUser.email,
+    phone: createdUser.phone,
+  });
   return { user: createdUser, token };
 }
 

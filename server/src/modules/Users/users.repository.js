@@ -1,28 +1,7 @@
 import { prisma } from "../../core/prisma.js";
 import { CustomError } from "../../core/ErrorHandler.js";
 import { hashPassword } from "../../core/utils.js";
-
-function validatePhoneNumber(phone) {
-  if (!phone || typeof phone !== "string") return null;
-  // remove all non-digit characters
-  const digits = phone.replace(/\D/g, "");
-
-  // Nigerian numbers: local format 0XXXXXXXXXX (11 digits) or international 234XXXXXXXXXX
-  if (/^234\d{10}$/.test(digits)) {
-    // convert +234... to 0...
-    return digits.replace(/^234/, "0");
-  }
-
-  if (/^0\d{10}$/.test(digits)) return digits;
-
-  if (/^\d{10}$/.test(digits)) {
-    // missing leading zero
-    return `0${digits}`;
-  }
-
-  // not a valid Nigerian phone for our purposes
-  return null;
-}
+import { validatePhoneNumber } from "./users.validation.js";
 
 async function createUser({ first_name, last_name, phone, email, password }) {
   if (!first_name || !last_name || !phone || !email || !password) {
@@ -30,11 +9,15 @@ async function createUser({ first_name, last_name, phone, email, password }) {
   }
 
   const normalizedPhone = validatePhoneNumber(phone);
-  if (!normalizedPhone) throw new CustomError("Invalid Nigerian phone number", 400);
+  if (!normalizedPhone) {
+    throw new CustomError("Invalid Nigerian phone number", 400);
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
 
   const isUser = await prisma.users.findFirst({
     where: {
-      OR: [{ email }, { phone: normalizedPhone }],
+      OR: [{ email: normalizedEmail }, { phone: normalizedPhone }],
     },
   });
 
@@ -42,17 +25,24 @@ async function createUser({ first_name, last_name, phone, email, password }) {
 
   const password_hash = await hashPassword(password);
 
-  const result = await prisma.users.create({
-    data: {
-      first_name,
-      last_name,
-      phone: normalizedPhone,
-      email,
-      password_hash,
-    },
-  });
+  try {
+    const result = await prisma.users.create({
+      data: {
+        first_name,
+        last_name,
+        phone: normalizedPhone,
+        email: normalizedEmail,
+        password_hash,
+      },
+    });
 
-  return result;
+    return result;
+  } catch (error) {
+    if (error?.code === "P2002") {
+      throw new CustomError("User already exists", 400);
+    }
+    throw error;
+  }
 }
 
 async function findByEmailorPhone(query) {
@@ -60,20 +50,24 @@ async function findByEmailorPhone(query) {
   return prisma.users.findMany({
     where: {
       OR: [
-        {email: {
-        contains: query,
-        mode: "insensitive",
-      }},
-      {phone: {
-        contains: query,
-        mode: "insensitive",
-      }},
-      ]
+        {
+          email: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          phone: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+      ],
     },
 
     include: {
-      messages: true
-    }
+      messages: true,
+    },
   });
 }
 
@@ -92,7 +86,21 @@ async function findById(id) {
   return prisma.users.findUnique({ where: { id } });
 }
 
-async function updateUser() {}
+async function updateUser(id, data) {
+  if (!id) throw new CustomError("User id is required", 400);
+
+  try {
+    return await prisma.users.update({
+      where: { id },
+      data,
+    });
+  } catch (error) {
+    if (error?.code === "P2002") {
+      throw new CustomError("Email or phone already exists", 400);
+    }
+    throw error;
+  }
+}
 
 export default {
   createUser,
