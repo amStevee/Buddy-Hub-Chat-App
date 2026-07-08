@@ -8,5 +8,6 @@ router.get("/", requireAuth, roomsController.listRooms);
 router.post("/", requireAuth, roomsController.createRoom);
 router.get("/:roomId", requireAuth, roomsController.findParticipants);
 router.get("/:id/messages", requireAuth, roomsController.listMessages);
+router.delete("/:roomId/leave", requireAuth, roomsController.leaveRoom);
 
 export default router;

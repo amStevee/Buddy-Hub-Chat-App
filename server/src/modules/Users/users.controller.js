@@ -27,9 +27,18 @@ async function createUser(req, res) {
 
 async function findUser(req, res) {
   try {
-    const user = await userService.findUser(req.query.q);
+    const user = await userService.findUser(req.query.q, req.user.id);
 
     res.status(200).json({ user });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ error: error.message });
+  }
+}
+
+async function deleteMe(req, res) {
+  try {
+    await userService.deleteUser(req.user.id);
+    res.status(200).json({ message: "Account deleted successfully" });
   } catch (error) {
     res.status(error.statusCode || 500).json({ error: error.message });
   }
@@ -79,5 +88,6 @@ async function updateMe(req, res) {
 export default {
   createUser,
   findUser,
+  deleteMe,
   updateMe,
 };

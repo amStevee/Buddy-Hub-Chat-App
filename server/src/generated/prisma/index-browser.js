@@ -139,7 +139,8 @@ exports.Prisma.RoomsScalarFieldEnum = {
 exports.Prisma.RoomParticipantScalarFieldEnum = {
   id: 'id',
   room_id: 'room_id',
-  user_id: 'user_id'
+  user_id: 'user_id',
+  hidden: 'hidden'
 };
 
 exports.Prisma.MessagesScalarFieldEnum = {

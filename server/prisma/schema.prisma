@@ -42,6 +42,7 @@ model RoomParticipant {
 
   room_id String
   user_id String
+  hidden Boolean @default(false)
 
   room Rooms @relation(fields: [room_id], references: [id])
 

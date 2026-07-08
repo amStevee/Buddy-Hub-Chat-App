@@ -47,24 +47,35 @@ async function createUser({ first_name, last_name, phone, email, password }) {
 
 async function findByEmailorPhone(query) {
   if (!query) throw new CustomError("User not found", 400);
+
+  const normalizedPhone = validatePhoneNumber(query);
+  const orConditions = [
+    {
+      email: {
+        contains: query,
+        mode: "insensitive",
+      },
+    },
+  ];
+
+  if (normalizedPhone) {
+    orConditions.push({ phone: normalizedPhone });
+  } else {
+    const digits = query.replace(/\D/g, "");
+    if (digits.length >= 3) {
+      orConditions.push({
+        phone: {
+          contains: digits,
+          mode: "insensitive",
+        },
+      });
+    }
+  }
+
   return prisma.users.findMany({
     where: {
-      OR: [
-        {
-          email: {
-            contains: query,
-            mode: "insensitive",
-          },
-        },
-        {
-          phone: {
-            contains: query,
-            mode: "insensitive",
-          },
-        },
-      ],
+      OR: orConditions,
     },
-
     include: {
       messages: true,
     },
@@ -102,6 +113,15 @@ async function updateUser(id, data) {
   }
 }
 
+async function deleteUserById(id) {
+  if (!id) throw new CustomError("User id is required", 400);
+
+  await prisma.messages.deleteMany({ where: { sender_id: id } });
+  await prisma.roomParticipant.deleteMany({ where: { user_id: id } });
+
+  return prisma.users.delete({ where: { id } });
+}
+
 export default {
   createUser,
   findByEmailorPhone,
@@ -109,4 +129,5 @@ export default {
   findByPhone,
   findById,
   updateUser,
+  deleteUserById,
 };

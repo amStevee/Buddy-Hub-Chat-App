@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/", usersController.createUser);
 router.put("/me", requireAuth, usersController.updateMe);
+router.delete("/me", requireAuth, usersController.deleteMe);
 router.get("/search", requireAuth, usersController.findUser);
 
 export default router;
