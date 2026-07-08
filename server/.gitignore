@@ -18,6 +18,7 @@ dump.rdb
 logs
 *.log
 *.log.*
+debug-room.js
 
 
 # misc
