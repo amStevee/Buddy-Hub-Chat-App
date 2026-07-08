@@ -301,6 +301,28 @@ async function renderChatList(containerId) {
   });
 }
 
+socket.on("message", (payload) => {
+  const chat = chats.find((c) => c.id === payload.room_id);
+  if (!chat) return;
+
+  const now = new Date(payload.created_at);
+  chat.preview = payload.text;
+  chat.time = now.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  const existingIndex = chats.findIndex((c) => c.id === payload.room_id);
+  if (existingIndex > -1) {
+    const [updatedChat] = chats.splice(existingIndex, 1);
+    chats.unshift(updatedChat);
+  }
+
+  renderChatList("chat-list-desktop");
+  renderChatList("chat-list-mobile");
+});
+
 async function loadRooms() {
   try {
     const res = await fetch(`/api/v1/rooms?userId=${currentUser.id}`, {
@@ -321,6 +343,8 @@ async function loadRooms() {
         room.messages && room.messages.length > 0
           ? room.messages[room.messages.length - 1]
           : null;
+
+      socket.emit("join", { room: room.id });
 
       return {
         initials: getInitials(otherUser),
@@ -361,14 +385,15 @@ async function createChatWith(otherUserId) {
         if (!res?.room?.id) return;
 
         const room = res.room;
+        socket.emit("join", { room: room.id });
 
         const getOtherUser = room.participants.find(
           (p) => p.user.id !== currentUser.id,
         )?.user;
 
         chats.unshift({
-          initials: room.name.slice(0, 2).toUpperCase(),
-          name: getInitials(getOtherUser),
+          initials: getInitials(getOtherUser),
+          name: getOtherUser?.first_name || "Unknown",
           preview: "",
           time: "Now",
           online: false,
@@ -426,9 +451,10 @@ function renderSettingsModal() {
 
         <p id="settings-status" class="text-sm min-h-5"></p>
 
-        <div class="flex gap-3">
-          <button id="save-settings-btn" class="flex-1 rounded-xl bg-primary-600 text-white px-4 py-3 font-semibold">Save Changes</button>
+        <div class="flex flex-col gap-3">
+          <button id="save-settings-btn" class="rounded-xl bg-primary-600 text-white px-4 py-3 font-semibold">Save Changes</button>
           <button id="logout-settings-btn" class="rounded-xl border border-gray-300 px-4 py-3 font-semibold text-gray-700">Log Out</button>
+          <button id="delete-account-btn" class="rounded-xl bg-red-600 text-white px-4 py-3 font-semibold">Delete Account</button>
         </div>
       </div>
     </div>
@@ -446,6 +472,9 @@ function renderSettingsModal() {
   document
     .getElementById("logout-settings-btn")
     ?.addEventListener("click", logoutUser);
+  document
+    .getElementById("delete-account-btn")
+    ?.addEventListener("click", deleteAccount);
 }
 
 async function saveSettings() {
@@ -496,6 +525,34 @@ async function saveSettings() {
   } catch (error) {
     status.textContent = error.message;
     status.className = "text-sm text-red-600 min-h-5";
+  }
+}
+
+async function deleteAccount() {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete your account? This cannot be undone.",
+  );
+  if (!confirmed) return;
+
+  try {
+    const res = await fetch("/api/v1/users/me", {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      const payload = await res.json();
+      throw new Error(payload?.error || "Unable to delete account");
+    }
+    localStorage.removeItem("authToken");
+    window.location.href = "/src/pages/login/index.html";
+  } catch (error) {
+    const status = document.getElementById("settings-status");
+    if (status) {
+      status.textContent = error.message;
+      status.className = "text-sm text-red-600 min-h-5";
+    }
   }
 }
 

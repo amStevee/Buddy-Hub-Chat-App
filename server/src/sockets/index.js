@@ -1,5 +1,6 @@
 import { verifyJwt } from "../core/jwt.js";
 import { prisma } from "../core/prisma.js";
+import roomsRepo from "../modules/Rooms/rooms.repository.js";
 
 function makeRoomNameFromParticipants(participants = []) {
   return `room:${participants.sort().join(":")}`;
@@ -63,6 +64,8 @@ export default function initSockets(io) {
               },
             },
           });
+        } else if (socket.user?.id) {
+          await roomsRepo.restoreParticipantIfHidden(room.id, socket.user.id);
         }
         cb && cb(null, { room });
       } catch (err) {

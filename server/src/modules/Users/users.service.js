@@ -5,9 +5,10 @@ async function createUser(data) {
   return result;
 }
 
-async function findUser(query) {
+async function findUser(query, currentUserId) {
   const result = await userRepo.findByEmailorPhone(query);
-  return result;
+  if (!currentUserId) return result;
+  return result.filter((user) => user.id !== currentUserId);
 }
 
 async function updateUser(userId, data) {
@@ -15,8 +16,14 @@ async function updateUser(userId, data) {
   return result;
 }
 
+async function deleteUser(userId) {
+  const result = await userRepo.deleteUserById(userId);
+  return result;
+}
+
 export default {
   createUser,
   findUser,
   updateUser,
+  deleteUser,
 };

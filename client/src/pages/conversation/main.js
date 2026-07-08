@@ -142,6 +142,33 @@ socket.on("connect_error", (err) => {
   console.error("Socket connect error", err.message);
 });
 
+const optionsButton = document.getElementById("conversation-options-btn");
+optionsButton?.addEventListener("click", async () => {
+  const confirmed = window.confirm(
+    "Remove this contact from your chat list? You will still be able to access the conversation until you leave it too.",
+  );
+  if (!confirmed) return;
+
+  try {
+    const res = await fetch(`/api/v1/rooms/${roomId}/leave`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      const payload = await res.json();
+      throw new Error(payload?.error || "Unable to remove contact");
+    }
+
+    window.location.href = "/src/pages/chats/index.html";
+  } catch (err) {
+    console.error("leaveRoom error", err);
+    alert(err.message || "Unable to remove contact.");
+  }
+});
+
 socket.on("message", (payload) => {
   const now = new Date(payload.created_at);
   const time = now.toLocaleTimeString([], {

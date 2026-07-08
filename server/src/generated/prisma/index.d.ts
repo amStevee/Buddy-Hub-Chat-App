@@ -3438,18 +3438,21 @@ export namespace Prisma {
     id: string | null
     room_id: string | null
     user_id: string | null
+    hidden: boolean | null
   }
 
   export type RoomParticipantMaxAggregateOutputType = {
     id: string | null
     room_id: string | null
     user_id: string | null
+    hidden: boolean | null
   }
 
   export type RoomParticipantCountAggregateOutputType = {
     id: number
     room_id: number
     user_id: number
+    hidden: number
     _all: number
   }
 
@@ -3458,18 +3461,21 @@ export namespace Prisma {
     id?: true
     room_id?: true
     user_id?: true
+    hidden?: true
   }
 
   export type RoomParticipantMaxAggregateInputType = {
     id?: true
     room_id?: true
     user_id?: true
+    hidden?: true
   }
 
   export type RoomParticipantCountAggregateInputType = {
     id?: true
     room_id?: true
     user_id?: true
+    hidden?: true
     _all?: true
   }
 
@@ -3549,6 +3555,7 @@ export namespace Prisma {
     id: string
     room_id: string
     user_id: string
+    hidden: boolean
     _count: RoomParticipantCountAggregateOutputType | null
     _min: RoomParticipantMinAggregateOutputType | null
     _max: RoomParticipantMaxAggregateOutputType | null
@@ -3572,6 +3579,7 @@ export namespace Prisma {
     id?: boolean
     room_id?: boolean
     user_id?: boolean
+    hidden?: boolean
     room?: boolean | RoomsDefaultArgs<ExtArgs>
     user?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["roomParticipant"]>
@@ -3580,6 +3588,7 @@ export namespace Prisma {
     id?: boolean
     room_id?: boolean
     user_id?: boolean
+    hidden?: boolean
     room?: boolean | RoomsDefaultArgs<ExtArgs>
     user?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["roomParticipant"]>
@@ -3588,6 +3597,7 @@ export namespace Prisma {
     id?: boolean
     room_id?: boolean
     user_id?: boolean
+    hidden?: boolean
     room?: boolean | RoomsDefaultArgs<ExtArgs>
     user?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["roomParticipant"]>
@@ -3596,9 +3606,10 @@ export namespace Prisma {
     id?: boolean
     room_id?: boolean
     user_id?: boolean
+    hidden?: boolean
   }
 
-  export type RoomParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "room_id" | "user_id", ExtArgs["result"]["roomParticipant"]>
+  export type RoomParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "room_id" | "user_id" | "hidden", ExtArgs["result"]["roomParticipant"]>
   export type RoomParticipantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     room?: boolean | RoomsDefaultArgs<ExtArgs>
     user?: boolean | UsersDefaultArgs<ExtArgs>
@@ -3622,6 +3633,7 @@ export namespace Prisma {
       id: string
       room_id: string
       user_id: string
+      hidden: boolean
     }, ExtArgs["result"]["roomParticipant"]>
     composites: {}
   }
@@ -4050,6 +4062,7 @@ export namespace Prisma {
     readonly id: FieldRef<"RoomParticipant", 'String'>
     readonly room_id: FieldRef<"RoomParticipant", 'String'>
     readonly user_id: FieldRef<"RoomParticipant", 'String'>
+    readonly hidden: FieldRef<"RoomParticipant", 'Boolean'>
   }
     
 
@@ -5579,7 +5592,8 @@ export namespace Prisma {
   export const RoomParticipantScalarFieldEnum: {
     id: 'id',
     room_id: 'room_id',
-    user_id: 'user_id'
+    user_id: 'user_id',
+    hidden: 'hidden'
   };
 
   export type RoomParticipantScalarFieldEnum = (typeof RoomParticipantScalarFieldEnum)[keyof typeof RoomParticipantScalarFieldEnum]
@@ -5642,6 +5656,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -5785,6 +5806,7 @@ export namespace Prisma {
     id?: StringFilter<"RoomParticipant"> | string
     room_id?: StringFilter<"RoomParticipant"> | string
     user_id?: StringFilter<"RoomParticipant"> | string
+    hidden?: BoolFilter<"RoomParticipant"> | boolean
     room?: XOR<RoomsScalarRelationFilter, RoomsWhereInput>
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }
@@ -5793,6 +5815,7 @@ export namespace Prisma {
     id?: SortOrder
     room_id?: SortOrder
     user_id?: SortOrder
+    hidden?: SortOrder
     room?: RoomsOrderByWithRelationInput
     user?: UsersOrderByWithRelationInput
   }
@@ -5805,6 +5828,7 @@ export namespace Prisma {
     NOT?: RoomParticipantWhereInput | RoomParticipantWhereInput[]
     room_id?: StringFilter<"RoomParticipant"> | string
     user_id?: StringFilter<"RoomParticipant"> | string
+    hidden?: BoolFilter<"RoomParticipant"> | boolean
     room?: XOR<RoomsScalarRelationFilter, RoomsWhereInput>
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }, "id" | "room_id_user_id">
@@ -5813,6 +5837,7 @@ export namespace Prisma {
     id?: SortOrder
     room_id?: SortOrder
     user_id?: SortOrder
+    hidden?: SortOrder
     _count?: RoomParticipantCountOrderByAggregateInput
     _max?: RoomParticipantMaxOrderByAggregateInput
     _min?: RoomParticipantMinOrderByAggregateInput
@@ -5825,6 +5850,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"RoomParticipant"> | string
     room_id?: StringWithAggregatesFilter<"RoomParticipant"> | string
     user_id?: StringWithAggregatesFilter<"RoomParticipant"> | string
+    hidden?: BoolWithAggregatesFilter<"RoomParticipant"> | boolean
   }
 
   export type MessagesWhereInput = {
@@ -6015,6 +6041,7 @@ export namespace Prisma {
 
   export type RoomParticipantCreateInput = {
     id?: string
+    hidden?: boolean
     room: RoomsCreateNestedOneWithoutParticipantsInput
     user: UsersCreateNestedOneWithoutUserInput
   }
@@ -6023,10 +6050,12 @@ export namespace Prisma {
     id?: string
     room_id: string
     user_id: string
+    hidden?: boolean
   }
 
   export type RoomParticipantUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     room?: RoomsUpdateOneRequiredWithoutParticipantsNestedInput
     user?: UsersUpdateOneRequiredWithoutUserNestedInput
   }
@@ -6035,22 +6064,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     room_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RoomParticipantCreateManyInput = {
     id?: string
     room_id: string
     user_id: string
+    hidden?: boolean
   }
 
   export type RoomParticipantUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RoomParticipantUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     room_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessagesCreateInput = {
@@ -6233,6 +6266,11 @@ export namespace Prisma {
     created_at?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type RoomsScalarRelationFilter = {
     is?: RoomsWhereInput
     isNot?: RoomsWhereInput
@@ -6252,18 +6290,29 @@ export namespace Prisma {
     id?: SortOrder
     room_id?: SortOrder
     user_id?: SortOrder
+    hidden?: SortOrder
   }
 
   export type RoomParticipantMaxOrderByAggregateInput = {
     id?: SortOrder
     room_id?: SortOrder
     user_id?: SortOrder
+    hidden?: SortOrder
   }
 
   export type RoomParticipantMinOrderByAggregateInput = {
     id?: SortOrder
     room_id?: SortOrder
     user_id?: SortOrder
+    hidden?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type MessagesCountOrderByAggregateInput = {
@@ -6478,6 +6527,10 @@ export namespace Prisma {
     connect?: UsersWhereUniqueInput
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type RoomsUpdateOneRequiredWithoutParticipantsNestedInput = {
     create?: XOR<RoomsCreateWithoutParticipantsInput, RoomsUncheckedCreateWithoutParticipantsInput>
     connectOrCreate?: RoomsCreateOrConnectWithoutParticipantsInput
@@ -6589,6 +6642,19 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type MessagesCreateWithoutSenderInput = {
     id?: string
     text: string
@@ -6615,12 +6681,14 @@ export namespace Prisma {
 
   export type RoomParticipantCreateWithoutUserInput = {
     id?: string
+    hidden?: boolean
     room: RoomsCreateNestedOneWithoutParticipantsInput
   }
 
   export type RoomParticipantUncheckedCreateWithoutUserInput = {
     id?: string
     room_id: string
+    hidden?: boolean
   }
 
   export type RoomParticipantCreateOrConnectWithoutUserInput = {
@@ -6683,6 +6751,7 @@ export namespace Prisma {
     id?: StringFilter<"RoomParticipant"> | string
     room_id?: StringFilter<"RoomParticipant"> | string
     user_id?: StringFilter<"RoomParticipant"> | string
+    hidden?: BoolFilter<"RoomParticipant"> | boolean
   }
 
   export type MessagesCreateWithoutRoomInput = {
@@ -6711,12 +6780,14 @@ export namespace Prisma {
 
   export type RoomParticipantCreateWithoutRoomInput = {
     id?: string
+    hidden?: boolean
     user: UsersCreateNestedOneWithoutUserInput
   }
 
   export type RoomParticipantUncheckedCreateWithoutRoomInput = {
     id?: string
     user_id: string
+    hidden?: boolean
   }
 
   export type RoomParticipantCreateOrConnectWithoutRoomInput = {
@@ -6979,6 +7050,7 @@ export namespace Prisma {
   export type RoomParticipantCreateManyUserInput = {
     id?: string
     room_id: string
+    hidden?: boolean
   }
 
   export type MessagesUpdateWithoutSenderInput = {
@@ -7004,17 +7076,20 @@ export namespace Prisma {
 
   export type RoomParticipantUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     room?: RoomsUpdateOneRequiredWithoutParticipantsNestedInput
   }
 
   export type RoomParticipantUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     room_id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RoomParticipantUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     room_id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessagesCreateManyRoomInput = {
@@ -7027,6 +7102,7 @@ export namespace Prisma {
   export type RoomParticipantCreateManyRoomInput = {
     id?: string
     user_id: string
+    hidden?: boolean
   }
 
   export type MessagesUpdateWithoutRoomInput = {
@@ -7052,17 +7128,20 @@ export namespace Prisma {
 
   export type RoomParticipantUpdateWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     user?: UsersUpdateOneRequiredWithoutUserNestedInput
   }
 
   export type RoomParticipantUncheckedUpdateWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RoomParticipantUncheckedUpdateManyWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
+    hidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
 
