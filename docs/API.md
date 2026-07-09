@@ -1,323 +1,153 @@
 # API Documentation
 
-This document defines the REST (and real-time) API for the Chat Application backed by PostgreSQL and Prisma ORM.
+This document reflects the current REST and Socket.io API for Buddy-Hub.
 
----
+## Base information
 
-# Base Information
+- Base URL (development): `http://localhost:3000/api/v1`
+- Content type: `application/json`
+- Authentication: JWT bearer token
 
-- **Base URL (Development):** `http://localhost:PORT/api/v1`
-- **Base URL (Production):** `https://[prod-domain.com]/api/v1`
-- **Content Type:** `application/json`
-- **Auth Method:** JWT (Bearer Token)
+## Authentication
 
----
-
-# Authentication
-
-Most endpoints require authentication.
-
-### Authorization Header
-
-```http
-Authorization: Bearer <token>
-```
-
----
-
-# Authentication Routes
-
-## Register User
-
-### POST `/auth/register`
+### POST /auth/register
 
 Creates a new user account.
 
-### Request Body
+Request body:
 
 ```json
 {
-  "first_name": "Test",
-  "last_name": "User",
-  "phone": "+234-010203994",
-  "email": "test.user@example.com",
-  "password": "Password123!" //hased
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "phone": "08012345678",
+  "email": "jane@example.com",
+  "password": "StrongPassword123"
 }
 ```
 
-### Response
+Notes:
+
+- Phone numbers must be valid Nigerian numbers.
+- Invalid symbols such as `%`, `$`, and `*` are rejected.
+
+Response: `201` with a user object and JWT token.
+
+### POST /auth/login
+
+Authenticates a user.
+
+Request body:
 
 ```json
 {
-  "message": "User created successfully",
-  "user": {
-    "id": 1,
-    "username": "john_doe",
-    "first_name": "Test",
-    "last_name": "User",
-    "phone": "+234-010203994",
-    "email": "test.user@example.com"
-  }
+  "email": "jane@example.com",
+  "password": "StrongPassword123"
 }
 ```
 
----
+Response: `200` with the authenticated user and a JWT token.
 
-## Login User
+### GET /auth/me
 
-### POST `/auth/login`
+Returns the current authenticated user.
 
-Authenticates a user and returns a JWT token.
-
-### Request Body
-
-```json
-{
-  "email": "john@example.com",
-  "password": "strongpassword" //hased
-}
-```
-
-### Response
-
-```json
-{
-  "user": {
-    "id": 1,
-    "first_name": "Test",
-    "last_name": "User",
-    "phone": "+234-010203994",
-    "email": "test.user@example.com"
-  }
-}
-```
-
----
-
-## Get Current User
-
-### GET `/auth/me`
-
-Returns authenticated user info.
-
-### Headers
+Headers:
 
 ```http
 Authorization: Bearer <token>
 ```
 
-### Response
+## Users
+
+### PUT /users/me
+
+Updates the current user profile.
+
+Request body example:
 
 ```json
 {
-  "id": 1,
-  "first_name": "Test",
-  "last_name": "User",
-  "phone": "+234-010203994",
-  "email": "test.user@example.com"
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "email": "jane@example.com",
+  "phone": "+2348012345678"
 }
 ```
 
----
+Response: `200` with the updated user payload.
 
-# Rooms
+### DELETE /users/me
 
-## Create Room
+Deletes the current user account and related room/message history.
 
-### POST `/rooms`
+Response: `200` with a success message.
 
-Creates a new chat room.
+## Rooms
 
-### Auth Required: YES
+### GET /rooms
 
-### Request Body
+Lists the current user’s visible rooms.
+
+Query params:
+
+- `userId` (required for the current client flow)
+
+Response: `200` with an array of rooms, including participants and messages.
+
+### POST /rooms
+
+Creates a room for the supplied participant IDs.
+
+Request body:
 
 ```json
 {
-  "name": "room:usr_id1:usr_id5"
+  "participants": ["user-a-id", "user-b-id"]
 }
 ```
 
-### Response
+Response: `201` with the created room.
+
+### GET /rooms/:roomId
+
+Returns room details and participants for the authenticated user.
+
+### GET /rooms/:id/messages
+
+Returns all messages for a room.
+
+### DELETE /rooms/:roomId/leave
+
+Hides the current user from a room so it no longer appears in their chat list.
+
+## Real-time events (Socket.io)
+
+### join
 
 ```json
-{
-  "id": 1,
-  "name": "room:usr_id1:usr_id5",
-  "created_at": "2026-06-03T10:00:00Z"
-}
+{ "room": "room-id" }
 ```
 
----
-
-## Get All Rooms
-
-### GET `/rooms`
-
-Fetch all chat rooms.
-
-### Response
+### leave
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "room:usr_id1:usr_id5",
-    "created_at": "2026-06-03T10:00:00Z"
-  }
-]
+{ "room": "room-id" }
 ```
 
----
-
-## Get Single Room
-
-### GET `/rooms/:roomId`
-
-### Response
+### create_room
 
 ```json
-{
-  "id": 1,
-  "name": "room:usr_id1:usr_id5",
-  "created_at": "2026-06-03T10:00:00Z"
-}
+{ "participants": ["user-a-id", "user-b-id"] }
 ```
 
----
-
-## Delete Room
-
-### DELETE `/rooms/:roomId`
-
-Deletes a chat room and optionally its messages.
-
-### Response
+### message
 
 ```json
-{
-  "message": "Room deleted successfully"
-}
+{ "roomId": "room-id", "text": "Hello there" }
 ```
 
----
-
-# Messages
-
-## Send Message
-
-### POST `/messages`
-
-Creates a new message in a room.
-
-### Auth Required: YES
-
-### Request Body
-
-```json
-{
-  "text": "Hello everyone!",
-  "room_id": 1
-}
-```
-
-### Response
-
-```json
-{
-  "id": 1,
-  "text": "Hello everyone!",
-  "sender_id": 1,
-  "room_id": 1,
-  "created_at": "2026-06-03T10:10:00Z"
-}
-```
-
----
-
-## Get Room Messages
-
-### GET `/messages/room/:roomId`
-
-Returns all messages in a room (ordered by time).
-
-### Response
-
-```json
-[
-  {
-    "id": 1,
-    "text": "Hello everyone!",
-    "sender_id": 1,
-    "room_id": 1,
-    "created_at": "2026-06-03T10:10:00Z"
-  }
-]
-```
-
----
-
-## Delete Message
-
-### DELETE `/messages/:messageId`
-
-Deletes a message.
-
-### Auth Required: YES (Owner only or admin)
-
-### Response
-
-```json
-{
-  "message": "Message deleted successfully"
-}
-```
-
----
-
-# Real-Time Events (socket.io)
-
-This application uses socket.io for live chat updates.
-
-## Connection
-
-```text
-socket.io
-```
-
----
-
-## Events
-
-### 1. Join Room
-
-```json
-{
-  "event": "join_room",
-  "data": {
-    "room_id": 1
-  }
-}
-```
-
----
-
-### 2. Send Message
-
-```json
-{
-  "event": "send_message",
-  "data": {
-    "text": "Hello!",
-    "room_id": 1,
-    "sender_id": 1
-  }
-}
-```
-
----
-
-### 3. Receive Message
+The server emits a `message` event to all connected clients in the room, and the client refreshes the room list when a new message arrives.
 
 Broadcasted to all room members:
 
