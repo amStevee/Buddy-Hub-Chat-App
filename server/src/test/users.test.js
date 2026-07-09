@@ -137,6 +137,29 @@ describe("POST /api/v1/users", () => {
     );
   }, 5000);
 
+  it("should reject phone numbers containing symbols", async () => {
+    const invalidUser = {
+      first_name: "Test",
+      last_name: "User",
+      phone: "0801020%$*994",
+      email: "invalid.symbols@example.com",
+      password: "TestPassword123",
+    };
+
+    const response = await request(app)
+      .post("/api/v1/users")
+      .send(invalidUser)
+      .set("Accept", "application/json")
+      .set("Content-Type", "application/json");
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        error: expect.any(String),
+      }),
+    );
+  }, 5000);
+
   it("should reject a duplicate phone number even when the format differs", async () => {
     const firstUser = {
       first_name: "Test",

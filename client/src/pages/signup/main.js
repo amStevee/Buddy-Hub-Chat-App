@@ -22,7 +22,7 @@ document.getElementById("email-field").innerHTML = BuddyInput.text(
 document.getElementById("phone-field").innerHTML = BuddyInput.text(
   "phone",
   "Phone Number",
-  "+1 234 567 8901",
+  "08012345678",
   "tel",
 );
 document.getElementById("password-field").innerHTML = BuddyInput.password(

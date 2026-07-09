@@ -81,7 +81,7 @@
         </a> -->
         <a
           href="#"
-          class="nav-tab flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-gray-100 transition focus-ring"
+          class="settings nav-tab flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-gray-100 transition focus-ring"
         >
           <svg
             class="w-5 h-5"
@@ -221,8 +221,7 @@
       </a> -->
       <a
         href="#"
-        id="settings"
-        class="nav-tab flex flex-col items-center justify-center gap-1 focus-ring rounded-2xl"
+        class="settings nav-tab flex flex-col items-center justify-center gap-1 focus-ring rounded-2xl"
         style="min-width: 44px; min-height: 44px"
       >
         <svg
@@ -250,7 +249,7 @@
     <!-- contact modal -->
     <div
       id="contact-modal"
-      class="hidden  fixed inset-0 bg-black/50 z-50 items-center justify-center"
+      class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center"
     >
       <div class="bg-white w-full max-w-md rounded-3xl p-6">
         <h2 class="text-xl font-bold mb-4">Add Contact</h2>
@@ -270,6 +269,10 @@
             Search
           </button>
         </div>
+
+        <p class="mt-3 text-xs text-gray-500">
+          Search by email or phone number, for example name@example.com or 08012345678.
+        </p>
 
         <div id="contact-search-result" class="mt-4"></div>
 

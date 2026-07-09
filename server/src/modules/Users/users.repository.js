@@ -100,6 +100,14 @@ async function findById(id) {
 async function updateUser(id, data) {
   if (!id) throw new CustomError("User id is required", 400);
 
+  if (data?.phone) {
+    const normalizedPhone = validatePhoneNumber(data.phone);
+    if (!normalizedPhone) {
+      throw new CustomError("Invalid Nigerian phone number", 400);
+    }
+    data.phone = normalizedPhone;
+  }
+
   try {
     return await prisma.users.update({
       where: { id },
@@ -116,8 +124,41 @@ async function updateUser(id, data) {
 async function deleteUserById(id) {
   if (!id) throw new CustomError("User id is required", 400);
 
-  await prisma.messages.deleteMany({ where: { sender_id: id } });
-  await prisma.roomParticipant.deleteMany({ where: { user_id: id } });
+  const rooms = await prisma.rooms.findMany({
+    where: {
+      participants: {
+        some: {
+          user_id: id,
+        },
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  const roomIds = rooms.map((room) => room.id);
+
+  if (roomIds.length > 0) {
+    await prisma.messages.deleteMany({
+      where: {
+        OR: [{ sender_id: id }, { room_id: { in: roomIds } }],
+      },
+    });
+    await prisma.roomParticipant.deleteMany({
+      where: {
+        OR: [{ user_id: id }, { room_id: { in: roomIds } }],
+      },
+    });
+    await prisma.rooms.deleteMany({
+      where: {
+        id: { in: roomIds },
+      },
+    });
+  } else {
+    await prisma.messages.deleteMany({ where: { sender_id: id } });
+    await prisma.roomParticipant.deleteMany({ where: { user_id: id } });
+  }
 
   return prisma.users.delete({ where: { id } });
 }
