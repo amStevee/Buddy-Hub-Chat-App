@@ -4,6 +4,8 @@ export function normalizePhoneNumber(phone) {
   const trimmedPhone = phone.trim();
   if (!trimmedPhone) return null;
 
+  if (!/^[0-9+\s()-]+$/.test(trimmedPhone)) return null;
+
   const digits = trimmedPhone.replace(/\D/g, "");
 
   if (digits.length !== 11) return null;

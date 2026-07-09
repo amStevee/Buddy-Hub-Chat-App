@@ -302,28 +302,14 @@ async function renderChatList(containerId) {
 }
 
 socket.on("message", (payload) => {
-  const chat = chats.find((c) => c.id === payload.room_id);
-  if (!chat) return;
+  if (!currentUser?.id) return;
 
-  const now = new Date(payload.created_at);
-  chat.preview = payload.text;
-  chat.time = now.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-
-  const existingIndex = chats.findIndex((c) => c.id === payload.room_id);
-  if (existingIndex > -1) {
-    const [updatedChat] = chats.splice(existingIndex, 1);
-    chats.unshift(updatedChat);
-  }
-
-  renderChatList("chat-list-desktop");
-  renderChatList("chat-list-mobile");
+  void loadRooms();
 });
 
 async function loadRooms() {
+  if (!currentUser?.id) return;
+
   try {
     const res = await fetch(`/api/v1/rooms?userId=${currentUser.id}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -348,7 +334,7 @@ async function loadRooms() {
 
       return {
         initials: getInitials(otherUser),
-        name: otherUser.first_name,
+        name: otherUser?.first_name || "Unknown",
         preview: lastMessage ? lastMessage.text : "No message yet",
         time:
           lastMessage && lastMessage.created_at
@@ -569,7 +555,7 @@ function openSettingsModal() {
   modal.classList.add("flex");
 }
 
-const settingsTrigger = document.getElementById("settings");
+const settingsTrigger = document.getElementsByClassName("settings")[0];
 settingsTrigger?.addEventListener("click", (event) => {
   event.preventDefault();
   openSettingsModal();
