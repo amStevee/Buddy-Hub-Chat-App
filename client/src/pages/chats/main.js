@@ -555,10 +555,11 @@ function openSettingsModal() {
   modal.classList.add("flex");
 }
 
-const settingsTrigger = document.getElementsByClassName("settings")[0];
-settingsTrigger?.addEventListener("click", (event) => {
-  event.preventDefault();
-  openSettingsModal();
+document.querySelectorAll(".settings").forEach((btn) => {
+  btn.addEventListener("click", (event) => {
+    event.preventDefault();
+    openSettingsModal();
+  });
 });
 
 const settingsModal = document.createElement("div");
