@@ -6,6 +6,10 @@ utils.formatChatTime = (dataString) => {
   const messageDate = new Date(dataString);
   const today = new Date();
 
+  if (messageDate.getTime() === today.getTime()) {
+    return "now";
+  }
+
   // check if day, month, and year all match today
   const isToday =
     messageDate.getDate() === today.getDate() &&
