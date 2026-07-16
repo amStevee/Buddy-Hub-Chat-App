@@ -10,8 +10,13 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const allowedOrigins = [
+  "https://buddy-hub-chat-app.onrender.com",
+  "http://localhost:5173",
+];
+
 const corsOptions = {
-  origin: "https://buddy-hub-web.onrender.com",
+  origin: allowedOrigins,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
@@ -30,7 +35,6 @@ app.use(cors(corsOptions));
 app.use(limiter);
 
 app.use(express.json());
-
 
 const clientBuildPath = path.join(__dirname, "../../client/dist");
 app.use(express.static(clientBuildPath));

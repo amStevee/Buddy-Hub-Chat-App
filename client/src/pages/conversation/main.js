@@ -1,4 +1,5 @@
 import "../../styles/main.css";
+import "../../utils/patchFetch.js";
 import { BuddyAvatar } from "../../components/Avatar/Avatar.js";
 import { BuddyMessageBubble } from "../../components/MessageBubble/MessageBubble.js";
 import { io } from "socket.io-client";
