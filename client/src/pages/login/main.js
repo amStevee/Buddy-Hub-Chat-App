@@ -1,4 +1,5 @@
 import "../../styles/main.css";
+import "../../utils/patchFetch.js";
 import { BuddyButton } from "../../components/Button/Button.js";
 import { BuddyInput } from "../../components/Input/Input.js";
 
